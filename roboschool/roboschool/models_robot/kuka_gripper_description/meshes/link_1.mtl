@@ -1,7 +1,7 @@
-# Blender MTL File: 'orange.blend'
+# Blender MTL File: 'link_1.blend'
 # Material Count: 1
 
-newmtl Material
+newmtl Material.001
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000
@@ -10,5 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd orangefruit.png
-map_Ke orangefruit.png
+map_Kd Blue.png

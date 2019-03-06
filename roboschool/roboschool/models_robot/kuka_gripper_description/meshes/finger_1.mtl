@@ -1,4 +1,4 @@
-# Blender MTL File: 'orange.blend'
+# Blender MTL File: 'finger_1.blend'
 # Material Count: 1
 
 newmtl Material
@@ -10,5 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.000000
 d 1.000000
 illum 2
-map_Kd orangefruit.png
-map_Ke orangefruit.png
+map_Kd LightGrey.png
