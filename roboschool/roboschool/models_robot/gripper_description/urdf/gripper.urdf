@@ -1,0 +1,158 @@
+<?xml version="1.0" ?>
+<robot name="lbr_iiwa" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <!-- Import Rviz colors -->
+    <material name="Grey">
+        <color rgba="0.6 0.6 0.6 1.0"/>
+    </material>
+    <material name="Orange">
+        <color rgba="1.0 0.3 0.0 1.0"/>
+    </material>
+    <material name="Blue">
+        <color rgba="0.1 0.3 1.0 1.0"/>      
+    </material>
+
+    <link name="base">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <!--Increase mass from 5 Kg original to provide a stable base to carry the
+          arm.-->
+      <mass value="0.0"/>
+      <inertia ixx="0.0" ixy="0" ixz="0" iyy="0.0" iyz="0" izz="0.0"/>
+  </inertial>
+  <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+          <mesh filename="package://gripper_description/meshes/base.stl"/>
+      </geometry>
+      <material name="Grey"/>
+  </visual>
+  <collision>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+          <mesh filename="package://gripper_description/meshes/base.stl"/>
+      </geometry>
+  </collision>
+  </link>
+  <!-- joint between link_0 and link_1 -->
+  <joint name="base_to_finger00_joint" type="revolute">
+      <parent link="base"/>
+      <child link="finger_00"/>
+      <origin rpy="0 0 0" xyz="1.5 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="300" lower="0" upper="1.5707963267948966" velocity="10"/>
+      <dynamics damping="0.5"/>
+  </joint>
+  <link name="finger_00">
+      <inertial>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <mass value="1"/>
+          <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.09" iyz="0" izz="0.02"/>
+      </inertial>
+      <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_0.stl"/>
+          </geometry>
+          <material name="Grey"/>
+      </visual>
+      <collision>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_0.stl"/>
+          </geometry>
+      </collision>
+  </link> 
+  <!-- joint between link_1 and link_2 -->
+  <joint name="finger00_to_finger01_joint" type="revolute">
+      <parent link="finger_00"/>
+      <child link="finger_01"/>
+      <origin rpy="0 0 0" xyz="0 0 7"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="300" upper="-1.5707963267948966" lower="0" velocity="10"/>
+      <dynamics damping="0.5"/>
+  </joint>  
+  <link name="finger_01">
+      <inertial>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <mass value="1"/>
+          <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.09" iyz="0" izz="0.02"/>
+      </inertial>
+      <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_1.stl"/>
+          </geometry>
+          <material name="Grey"/>
+      </visual>
+      <collision>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_1.stl"/>
+          </geometry>
+      </collision>
+  </link> 
+
+
+
+
+
+  <!-- joint between link_0 and link_3 -->
+  <joint name="base_to_finger10_joint" type="revolute">
+      <parent link="base"/>
+      <child link="finger_10"/>
+      <origin rpy="0 0 3.141592653589793" xyz="-1.5 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="300" lower="0" upper="1.5707963267948966" velocity="10"/>
+      <dynamics damping="0.5"/>
+  </joint>
+  <link name="finger_10">
+      <inertial>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <mass value="1"/>
+          <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.09" iyz="0" izz="0.02"/>
+      </inertial>
+      <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_0.stl"/>
+          </geometry>
+          <material name="Grey"/>
+      </visual>
+      <collision>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_0.stl"/>
+          </geometry>
+      </collision>
+  </link> 
+  <!-- joint between link_1 and link_2 -->
+  <joint name="finger10_to_finger11_joint" type="revolute">
+      <parent link="finger_10"/>
+      <child link="finger_11"/>
+      <origin rpy="0 0 0" xyz="0 0 7"/>
+      <axis xyz="0 1 0"/>
+      <limit effort="300" upper="-1.5707963267948966" lower="0" velocity="10"/>
+      <dynamics damping="0.5"/>
+  </joint>  
+  <link name="finger_11">
+      <inertial>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <mass value="1"/>
+          <inertia ixx="0.1" ixy="0" ixz="0" iyy="0.09" iyz="0" izz="0.02"/>
+      </inertial>
+      <visual>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_1.stl"/>
+          </geometry>
+          <material name="Grey"/>
+      </visual>
+      <collision>
+          <origin rpy="0 0 0" xyz="0 0 0"/>
+          <geometry>
+              <mesh filename="package://gripper_description/meshes/finger_1.stl"/>
+          </geometry>
+      </collision>
+  </link> 
+</robot>
+

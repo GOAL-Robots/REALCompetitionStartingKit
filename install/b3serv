@@ -1,0 +1,29 @@
+#!/bin/bash
+
+SHARED_MEMORY_FILE=${HOME}/.roboschool_sm_key
+
+SHARED_MEMORY_KEY=$RANDOM
+
+if [[ -e $SHARED_MEMORY_FILE ]]; then
+    while [[ ! -z "$(cat  $SHARED_MEMORY_FILE | grep "\<$SHARED_MEMORY_KEY\>")" ]]; do
+        SHARED_MEMORY_KEY=$RANDOM
+    done
+fi
+
+# update the key file
+echo $SHARED_MEMORY_KEY >> $SHARED_MEMORY_FILE
+
+# open the bullet physiscs server
+physics_server --shared_memory_key=$SHARED_MEMORY_KEY &
+physics_server_pid=$!
+echo $SHARED_MEMORY_KEY > SHARED_MEMORY_KEY
+sleep 1
+
+# run the python command 
+eval "$@" && kill $physics_server_pid
+
+# update the key file
+echo "$(cat $SHARED_MEMORY_FILE | grep -v "\<$SHARED_MEMORY_KEY\>")" > $SHARED_MEMORY_FILE
+
+
+

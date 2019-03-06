@@ -1,0 +1,17 @@
+<package>
+  <name>kuka_gripper_description</name>
+  <version>0.4.0</version>
+
+  <description>kuka_gripper model</description>
+  <license>BSD</license>
+  <url>http://ros.org/wiki/urdf_tutorial</url>
+  <maintainer email="francesco.mannella@gmail.com">Francesco Mannella</maintainer>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roslaunch</build_depend>
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>rviz</run_depend>
+  <run_depend>xacro</run_depend>
+
+</package>
