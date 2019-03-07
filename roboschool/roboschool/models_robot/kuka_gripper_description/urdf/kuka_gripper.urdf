@@ -2,7 +2,7 @@
 <robot name="kuka_gripper" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <!-- Import Rviz colors -->
     <material name="Grey">
-        <color rgba="1.0 0.0 0.0 1.0"/>
+        <color rgba="0.1 0.1 0.1 1.0"/>
     </material>
     <material name="Orange">
         <color rgba="1.0 0.3 0.0 1.0"/>
@@ -10,7 +10,7 @@
     <material name="Blue">
         <color rgba="0.1 0.3 1.0 1.0"/>      
     </material>
-    
+
     <link name="lbr_iiwa_link_0">
         <inertial>
             <origin rpy="0 0 0" xyz=" 0 0 0"/>
@@ -20,16 +20,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_0.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_0.obj"/>
             </geometry>
-            <material name="my">
-                <texture filename="tex.jpg"/>
-            </material>
+            <material name="Grey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_0.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_0.obj"/>
             </geometry>
         </collision>
     </link>
@@ -51,14 +49,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_1.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_1.obj"/>
             </geometry>
             <material name="Blue"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_1.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_1.obj"/>
             </geometry>
         </collision>
     </link>
@@ -80,14 +78,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_2.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_2.obj"/>
             </geometry>
             <material name="Blue"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_2.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_2.obj"/>
             </geometry>
         </collision>
     </link>
@@ -109,14 +107,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_3.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_3.obj"/>
             </geometry>
             <material name="Orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_3.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_3.obj"/>
             </geometry>
         </collision>
     </link>
@@ -138,14 +136,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_4.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_4.obj"/>
             </geometry>
             <material name="Blue"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_4.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_4.obj"/>
             </geometry>
         </collision>
     </link>
@@ -167,14 +165,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_5.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_5.obj"/>
             </geometry>
             <material name="Blue"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_5.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_5.obj"/>
             </geometry>
         </collision>
     </link>
@@ -196,14 +194,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_6.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_6.obj"/>
             </geometry>
             <material name="Orange"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_6.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_6.obj"/>
             </geometry>
         </collision>
     </link>
@@ -225,14 +223,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_7.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_7.obj"/>
             </geometry>
             <material name="Grey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/link_7.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/link_7.obj"/>
             </geometry>
         </collision>
     </link>
@@ -264,14 +262,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/base.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/base.obj"/>
             </geometry>
             <material name="Grey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/base.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/base.obj"/>
             </geometry>
         </collision>
     </link>
@@ -293,14 +291,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
             </geometry>
             <material name="Grey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
             </geometry>
         </collision>
     </link> 
@@ -322,14 +320,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
             </geometry>
             <material name="Grey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
             </geometry>
         </collision>
     </link> 
@@ -356,14 +354,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
             </geometry>
             <material name="Grey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
             </geometry>
         </collision>
     </link> 
@@ -385,14 +383,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
             </geometry>
             <material name="Grey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.stl"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
             </geometry>
         </collision>
     </link> 
