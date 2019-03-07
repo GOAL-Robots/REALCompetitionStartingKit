@@ -114,6 +114,7 @@ if [[ $INSTALL == true ]]; then
     mkdir -p $ROBOSCHOOL_PATH/bin
 
     cp build_cmake/examples/SharedMemory/App_PhysicsServer_SharedMemory $ROBOSCHOOL_PATH/bin/physics_server
+    cp $SCRIPTPATH/b3serv  $ROBOSCHOOL_PATH/bin/
 
     echo "export PATH=\$PATH:$ROBOSCHOOL_PATH/bin" >> ${HOME}/.bashrc
 
