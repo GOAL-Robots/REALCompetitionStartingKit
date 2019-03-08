@@ -74,7 +74,7 @@ class RoboschoolKukaObjects(RoboschoolUrdfEnv):
     EYE_W = 200
     EYE_H = 200
 
-    used_objects = ["BANANA", "HAMMER", "TOMATO_SOUP_CAN", "MUSTARD", "ORANGE",]
+    used_objects = ["BANANA", "HAMMER", "TOMATO_SOUP_CAN", "MUSTARD", "ORANGE"]
       
     def create_single_player_scene(self):
         return SingleRobotEmptyScene(gravity=9.8, 
@@ -198,7 +198,7 @@ class RoboschoolKukaObjects(RoboschoolUrdfEnv):
                 pose_orange, False, True)
 
         # add mustard
-        if "mustard" in self.used_objects:
+        if "MUSTARD" in self.used_objects:
             pose_mustard = cpp_household.Pose()
             pose_mustard.set_xyz(-0.2, -0.35, .3)
             self.urdf_mustard  = self.scene.cpp_world.load_urdf(
