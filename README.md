@@ -1,9 +1,37 @@
 # REALCompetitionStartingKit
+Tested on Ubuntu (>= Ubuntu 16.04)
 
-run:
+To install all needed stuff run:
 
-        install/install.sh
+    install/install.sh
 
+
+Using the env:
+```python
+        from OpenGL import GLU
+        import roboschool
+
+        def demo_run():
+        
+            env = gym.make("RoboschoolKuka-v1")
+            
+            # uncomment these lines to enable the eye camera
+            # env.unwrapped.set_eyeEnable(False)
+            # env.unwrapped.set_eyeShow(False)
+            
+            # uncomment and/or change these lines to choose the objects to use
+            # env.unwrapped.used_objects = ["BANANA", "HAMMER", "TOMATO_SOUP_CAN", 
+            #                               "MUSTARD", "ORANGE"]
+
+            obs = env.reset()    
+            while True:
+                action = np.zeros(env.action.space.shape) 
+                state, rewad, done, info_ = env.step(action)
+                still_open = env.render("human")
+                             
+        if __name__=="__main__":
+            demo_run()
+```
 
 <TABLE " BORDER="0">
 <TR>
