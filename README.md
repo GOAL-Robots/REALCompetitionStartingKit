@@ -1,11 +1,12 @@
 # REALCompetitionStartingKit
 Tested on Ubuntu (>= Ubuntu 16.04)
 
+### Install
 To install all needed stuff run:
 
     install/install.sh
 
-
+### Usage
 Using the env:
 ```python
         from OpenGL import GLU
