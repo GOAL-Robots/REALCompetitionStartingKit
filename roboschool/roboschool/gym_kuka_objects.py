@@ -160,11 +160,19 @@ class RoboschoolKukaObjects(RoboschoolUrdfEnv):
             os.path.join(os.path.dirname(__file__), "models_robot",
                 "kuka_gripper_description/urdf/table.urdf"),
             pose_table, True, True)
+       
+        # add shelf
+        pose_shelf = cpp_household.Pose()
+        pose_shelf.set_xyz(0, 0, 0)
+        self.urdf_shelf  = self.scene.cpp_world.load_urdf(
+            os.path.join(os.path.dirname(__file__), "models_robot",
+                "kuka_gripper_description/urdf/shelf.urdf"),
+            pose_shelf, True, True)
         
         # add tomato_soup_can
         if "TOMATO_SOUP_CAN" in self.used_objects:
             pose_tomato = cpp_household.Pose()
-            pose_tomato.set_xyz(0.3, 0.3, 0.5)
+            pose_tomato.set_xyz(0.1, -0.4, 0.47)
             self.urdf_tomato  = self.scene.cpp_world.load_urdf(
                 os.path.join(os.path.dirname(__file__), "models_robot",
                     "kuka_gripper_description/urdf/tomato_soup_can.urdf"),
@@ -173,34 +181,34 @@ class RoboschoolKukaObjects(RoboschoolUrdfEnv):
         # add banana
         if "BANANA" in self.used_objects:
             pose_banana = cpp_household.Pose()
-            pose_banana.set_xyz(0., 0., .35)
+            pose_banana.set_xyz(0.0, 0.-1, .35)
             self.urdf_banana  = self.scene.cpp_world.load_urdf(
                 os.path.join(os.path.dirname(__file__), "models_robot",
                     "kuka_gripper_description/urdf/banana.urdf"),
                 pose_banana, False, True)
-
+        
         # add hammer
         if "HAMMER" in self.used_objects:
             pose_hammer = cpp_household.Pose()
-            pose_hammer.set_xyz(0.2, -0.1, .25)
+            pose_hammer.set_xyz(0.0, 0.3, .25)
             self.urdf_hammer  = self.scene.cpp_world.load_urdf(
                 os.path.join(os.path.dirname(__file__), "models_robot",
                     "kuka_gripper_description/urdf/hammer.urdf"),
                 pose_hammer, False, True)
-
+        
         # add orange
         if "ORANGE" in self.used_objects:
             pose_orange = cpp_household.Pose()
-            pose_orange.set_xyz(0.2, -0.35, .3)
+            pose_orange.set_xyz(0.0, 0.1, .3)
             self.urdf_orange  = self.scene.cpp_world.load_urdf(
                 os.path.join(os.path.dirname(__file__), "models_robot",
                     "kuka_gripper_description/urdf/orange.urdf"),
                 pose_orange, False, True)
-
+        
         # add mustard
         if "MUSTARD" in self.used_objects:
             pose_mustard = cpp_household.Pose()
-            pose_mustard.set_xyz(-0.2, -0.35, .3)
+            pose_mustard.set_xyz(0.1, 0.5, .3)
             self.urdf_mustard  = self.scene.cpp_world.load_urdf(
                 os.path.join(os.path.dirname(__file__), "models_robot",
                     "kuka_gripper_description/urdf/mustard.urdf"),
@@ -261,7 +269,7 @@ class RoboschoolKukaObjects(RoboschoolUrdfEnv):
         x, y, z = self.cpp_robot.root_part.pose().xyz()
         y += 0.5
         z += 0.3
-        self.camera.move_and_look_at(.7, -.7, .8, x, y, z)
+        self.camera.move_and_look_at(.7, -.7, 1.1, x, y, z)
     
     def eye_render(self):
         self.eye_adjust() 

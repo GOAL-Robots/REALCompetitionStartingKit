@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<robot name="table" xmlns:xacro="http://www.ros.org/wiki/xacro">
-    <link name="table">
+<robot name="shelf" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="shelf">
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="0.0"/>
@@ -9,13 +9,13 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/table.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/shelf.obj"/>
             </geometry>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/table.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/shelf.obj"/>
             </geometry>
         </collision>
     </link>
