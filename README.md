@@ -11,6 +11,7 @@ Using the env:
 ```python
         from OpenGL import GLU
         import roboschool
+        import gym
 
         def demo_run():
         
@@ -24,10 +25,16 @@ Using the env:
             # env.unwrapped.used_objects = ["BANANA", "HAMMER", "TOMATO_SOUP_CAN", 
             #                               "MUSTARD", "ORANGE"]
 
-            obs = env.reset()    
+            obs = env.reset()  
+    
             while True:
-                action = np.zeros(env.action.space.shape) 
-                state, rewad, done, info_ = env.step(action)
+                # Call your controller to chose action 
+                action = myRobotFunc(state, reward, info_)
+                
+                # do action
+                state, reward, done, info_ = env.step(action)
+                
+                # render
                 still_open = env.render("human")
                              
         if __name__=="__main__":
