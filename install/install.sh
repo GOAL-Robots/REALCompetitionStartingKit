@@ -3,13 +3,6 @@
 
 set -e
 
-sudo apt install python3-pip
-pip3 install --user gym
-pip3 install --user pyOpenGL
-
-alias python=python3
-alias pip=pip3
-
 
 # Manage arguments
 # -------------------------------------------------------------------------------------------
@@ -26,17 +19,19 @@ usage()
     This script install the GOAL-Robots-competiotion env
 
     OPTIONS:
-    -u --uninstall   uninstall
-    -r --reinstall   reinstall
+    -u --uninstall     uninstall
+    -r --reinstall     reinstall
+    -v --virtual_env   use a virtual env
 
 EOF
 }
 
 INSTALL=true
 UNINSTALL=false
+VE=false
 
 # getopt
-GOTEMP="$(getopt -o "urh" -l "uninstall,reinstall,help"  -n '' -- "$@")"
+GOTEMP="$(getopt -o "urvh" -l "uninstall,reinstall,virtual_env,help"  -n '' -- "$@")"
 
 # if [[ -z "$(echo -n $GOTEMP |sed -e"s/\-\-\(\s\+.*\|\s*\)$//")" ]]; then
 #     usage; exit;
@@ -55,6 +50,9 @@ do
             INSTALL=true
             UNINSTALL=true
             shift;;
+        -v | --virtual_env)
+            VE=true
+            shift;; 
         -h | --help)
             usage; exit;
             shift;
@@ -75,6 +73,11 @@ SCRIPT=$(realpath -s $0)
 SCRIPTPATH=$(dirname $SCRIPT)
 ROBOSCHOOL_PATH=${HOME}/opt/roboschool
 
+if [[ $VE == false ]]; then
+    alias python=python3
+    alias pip=pip3
+fi
+
 if [[ $UNINSTALL == true ]]; then
     pip uninstall roboschool
     [[ $ROBOSCHOOL_PATH =~ roboschool ]] && rm -fr "$ROBOSCHOOL_PATH"
@@ -82,6 +85,14 @@ fi
 
 if [[ $INSTALL == true ]]; then
 
+    if [[ $VE == false ]]; then
+        sudo apt install python3-pip
+        pip install --user gym
+        pip install --user pyOpenGL
+    elif [[ $VE == true ]]; then
+        pip install gym
+        pip install pyOpenGL
+    fi
 
     if [[ -d "$ROBOSCHOOL_PATH" ]]; then 
         echo "Roboschool already installed"
@@ -107,14 +118,18 @@ if [[ $INSTALL == true ]]; then
         -DBUILD_SHARED_LIBS=ON -DUSE_DOUBLE_PRECISION=1 \
         -DCMAKE_INSTALL_PREFIX:PATH=$ROBOSCHOOL_PATH/roboschool/cpp-household/bullet_local_install \
         -DBUILD_CPU_DEMOS=OFF -DBUILD_BULLET2_DEMOS=OFF \
-        -DBUILD_EXTRAS=OFF  -DBUILD_UNIT_TESTS=OFF \
+        -DBUILD_EXTRAS=OFF  -DBUILD_PYBULLET=ON -DBUILD_UNIT_TESTS=OFF \
         -DBUILD_CLSOCKET=OFF -DBUILD_ENET=OFF \
         -DBUILD_OPENGL3_DEMOS=OFF ..
     make -j4
     make install
 
     cd $ROBOSCHOOL_PATH
-    pip3 install --user -e .
+    if [[ $VE == false ]]; then
+        pip install --user -e .
+    elif [[ $VE == true ]]; then
+        pip install -e .
+    fi
 
     cd bullet3
     rm -fr build_cmake || true

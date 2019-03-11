@@ -74,7 +74,7 @@ class RoboschoolKukaObjects(RoboschoolUrdfEnv):
     EYE_W = 200
     EYE_H = 200
 
-    used_objects = ["BANANA", "HAMMER", "TOMATO_SOUP_CAN", "MUSTARD", "ORANGE"]
+    used_objects = ["TOMATO_SOUP_CAN", "MUSTARD", "ORANGE"]
       
     def create_single_player_scene(self):
         return SingleRobotEmptyScene(gravity=9.8, 
@@ -99,9 +99,9 @@ class RoboschoolKukaObjects(RoboschoolUrdfEnv):
         low[-2:] = 0
         high = 0.75*np.pi*np.ones([self.action_dim])
 
-        self.action_space = gym.spaces.Box(low, high)
+        self.action_space = gym.spaces.Box(low, high, dtype=float)
         high = np.inf*np.ones([self.obs_dim])
-        self.observation_space = gym.spaces.Box(-high, high)
+        self.observation_space = gym.spaces.Box(-high, high, dtype=float)
 
         self.rendered_rgb_eye = np.zeros([self.EYE_H, self.EYE_W, 3], dtype=np.uint8)
 
