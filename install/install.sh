@@ -3,6 +3,14 @@
 
 set -e
 
+sudo apt install python3-pip
+pip3 install --user gym
+pip3 install --user pyOpenGL
+
+alias python=python3
+alias pip=pip3
+
+
 # Manage arguments
 # -------------------------------------------------------------------------------------------
 # -------------------------------------------------------------------------------------------
@@ -106,7 +114,7 @@ if [[ $INSTALL == true ]]; then
     make install
 
     cd $ROBOSCHOOL_PATH
-    pip3 install -e .
+    pip3 install --user -e .
 
     cd bullet3
     rm -fr build_cmake || true
