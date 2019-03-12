@@ -115,14 +115,22 @@ if [[ $INSTALL == true ]]; then
     mkdir build
     cd build
     cmake \
-        -DBUILD_SHARED_LIBS=ON -DUSE_DOUBLE_PRECISION=1 \
+        -DBUILD_SHARED_LIBS=ON -DUSE_DOUBLE_PRECISION=ON \
         -DCMAKE_INSTALL_PREFIX:PATH=$ROBOSCHOOL_PATH/roboschool/cpp-household/bullet_local_install \
-        -DBUILD_CPU_DEMOS=OFF -DBUILD_BULLET2_DEMOS=OFF \
-        -DBUILD_EXTRAS=OFF  -DBUILD_PYBULLET=ON -DBUILD_UNIT_TESTS=OFF \
-        -DBUILD_CLSOCKET=OFF -DBUILD_ENET=OFF \
-        -DBUILD_OPENGL3_DEMOS=OFF ..
-    make -j4
+        -DBUILD_CPU_DEMOS=OFF -DBUILD_BULLET2_DEMOS=ON \
+        -DBUILD_EXTRAS=ON  -DBUILD_PYBULLET=ON -DBUILD_UNIT_TESTS=OFF \
+        -DBUILD_CLSOCKET=OFF -DBUILD_ENET=OFF -DCMAKE_BUILD_TYPE=Release \
+        ..
+    make -j8
     make install
+    
+    #cd bullet3
+    #rm -fr build_cmake || true
+    #./build_cmake_pybullet_double.sh || true
+    mkdir -p $ROBOSCHOOL_PATH/bin
+
+    cp examples/SharedMemory/App_PhysicsServer_SharedMemory $ROBOSCHOOL_PATH/bin/physics_server
+    cp $SCRIPTPATH/b3serv $ROBOSCHOOL_PATH/bin/
 
     cd $ROBOSCHOOL_PATH
     if [[ $VE == false ]]; then
@@ -131,13 +139,6 @@ if [[ $INSTALL == true ]]; then
         pip install -e .
     fi
 
-    cd bullet3
-    rm -fr build_cmake || true
-    ./build_cmake_pybullet_double.sh || true
-    mkdir -p $ROBOSCHOOL_PATH/bin
-
-    cp build_cmake/examples/SharedMemory/App_PhysicsServer_SharedMemory $ROBOSCHOOL_PATH/bin/physics_server
-    cp $SCRIPTPATH/b3serv  $ROBOSCHOOL_PATH/bin/
 
     echo "export PATH=\$PATH:$ROBOSCHOOL_PATH/bin" >> ${HOME}/.bashrc
 
