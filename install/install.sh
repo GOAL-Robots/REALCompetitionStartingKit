@@ -80,7 +80,7 @@ fi
 
 if [[ $UNINSTALL == true ]]; then
     pip uninstall roboschool
-    [[ $ROBOSCHOOL_PATH =~ roboschool ]] && rm -fr "$ROBOSCHOOL_PATH"
+    [[ -d $ROBOSCHOOL_PATH ]] && rm -fr "$ROBOSCHOOL_PATH"
 fi
 
 if [[ $INSTALL == true ]]; then
@@ -94,16 +94,10 @@ if [[ $INSTALL == true ]]; then
         pip install pyOpenGL
     fi
 
-    if [[ -d "$ROBOSCHOOL_PATH" ]]; then 
-        echo "Roboschool already installed"
-        exit
-    fi
     mkdir -p $ROBOSCHOOL_PATH
-
-    mkdir -p ${HOME}/opt
     sudo apt install -y \
         cmake ffmpeg pkg-config qtbase5-dev \
-        libqt5opengl5-dev libassimp-dev libpython3.5-dev \
+        libqt5opengl5-dev libassimp-dev libpython-dev \
         libboost-python-dev libtinyxml-dev
 
     cd $ROBOSCHOOL_PATH
@@ -124,6 +118,8 @@ if [[ $INSTALL == true ]]; then
     make -j8
     make install
     
+    echo install
+
     #cd bullet3
     #rm -fr build_cmake || true
     #./build_cmake_pybullet_double.sh || true
