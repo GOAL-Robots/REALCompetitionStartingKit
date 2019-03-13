@@ -79,12 +79,18 @@ if [[ $VE == false ]]; then
 fi
 
 if [[ $UNINSTALL == true ]]; then
-    pip uninstall roboschool
+    pip uninstall roboschool || true
     [[ -d $ROBOSCHOOL_PATH ]] && rm -fr "$ROBOSCHOOL_PATH"
 fi
 
 if [[ $INSTALL == true ]]; then
 
+    if [[ $UNINSTALL == false ]]; then
+	if [[ -d $ROBOSCHOOL_PATH ]]; then 
+	    echo "roboschool allready installed"
+	    exit
+	fi
+    fi
     if [[ $VE == false ]]; then
         sudo apt install python3-pip
         pip install --user gym
