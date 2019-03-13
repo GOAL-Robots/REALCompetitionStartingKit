@@ -73,13 +73,9 @@ SCRIPT=$(realpath -s $0)
 SCRIPTPATH=$(dirname $SCRIPT)
 ROBOSCHOOL_PATH=${HOME}/opt/roboschool
 
-if [[ $VE == false ]]; then
-    alias python=python3
-    alias pip=pip3
-fi
 
 if [[ $UNINSTALL == true ]]; then
-    pip uninstall roboschool || true
+    pip3 uninstall roboschool || true
     [[ -d $ROBOSCHOOL_PATH ]] && rm -fr "$ROBOSCHOOL_PATH"
 fi
 
@@ -93,11 +89,11 @@ if [[ $INSTALL == true ]]; then
     fi
     if [[ $VE == false ]]; then
         sudo apt install python3-pip
-        pip install --user gym
-        pip install --user pyOpenGL
+        pip3 install --user gym
+        pip3 install --user pyOpenGL
     elif [[ $VE == true ]]; then
-        pip install gym
-        pip install pyOpenGL
+        pip3 install gym
+        pip3 install pyOpenGL
     fi
 
     mkdir -p $ROBOSCHOOL_PATH
@@ -126,9 +122,6 @@ if [[ $INSTALL == true ]]; then
     
     echo install
 
-    #cd bullet3
-    #rm -fr build_cmake || true
-    #./build_cmake_pybullet_double.sh || true
     mkdir -p $ROBOSCHOOL_PATH/bin
 
     cp examples/SharedMemory/App_PhysicsServer_SharedMemory $ROBOSCHOOL_PATH/bin/physics_server
@@ -136,9 +129,9 @@ if [[ $INSTALL == true ]]; then
 
     cd $ROBOSCHOOL_PATH
     if [[ $VE == false ]]; then
-        pip install --user -e .
+        pip3 install --user -e .
     elif [[ $VE == true ]]; then
-        pip install -e .
+        pip3 install -e .
     fi
 
 
