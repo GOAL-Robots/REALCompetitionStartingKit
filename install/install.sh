@@ -128,11 +128,7 @@ if [[ $INSTALL == true ]]; then
     cp $SCRIPTPATH/b3serv $ROBOSCHOOL_PATH/bin/
 
     cd $ROBOSCHOOL_PATH
-    if [[ $VE == false ]]; then
-        pip3 install --user -e .
-    elif [[ $VE == true ]]; then
-        pip3 install -e .
-    fi
+    pip3 install -e .
 
 
     echo "export PATH=\$PATH:$ROBOSCHOOL_PATH/bin" >> ${HOME}/.bashrc
