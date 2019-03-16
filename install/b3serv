@@ -2,7 +2,7 @@
 
 SHARED_MEMORY_FILE=${HOME}/.roboschool_sm_key
 
-SHARED_MEMORY_KEY=$RANDOM
+SHARED_MEMORY_KEY=$((10000 + 10000*RANDOM))
 
 if [[ -e $SHARED_MEMORY_FILE ]]; then
     while [[ ! -z "$(cat  $SHARED_MEMORY_FILE | grep "\<$SHARED_MEMORY_KEY\>")" ]]; do
