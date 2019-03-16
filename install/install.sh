@@ -73,37 +73,33 @@ SCRIPT=$(realpath -s $0)
 SCRIPTPATH=$(dirname $SCRIPT)
 ROBOSCHOOL_PATH=${HOME}/opt/roboschool
 
-if [[ $VE == false ]]; then
-    alias python=python3
-    alias pip=pip3
-fi
 
 if [[ $UNINSTALL == true ]]; then
-    pip uninstall roboschool
-    [[ $ROBOSCHOOL_PATH =~ roboschool ]] && rm -fr "$ROBOSCHOOL_PATH"
+    pip3 uninstall roboschool || true
+    [[ -d $ROBOSCHOOL_PATH ]] && rm -fr "$ROBOSCHOOL_PATH"
 fi
 
 if [[ $INSTALL == true ]]; then
 
+    if [[ $UNINSTALL == false ]]; then
+	if [[ -d $ROBOSCHOOL_PATH ]]; then 
+	    echo "roboschool allready installed"
+	    exit
+	fi
+    fi
     if [[ $VE == false ]]; then
         sudo apt install python3-pip
-        pip install --user gym
-        pip install --user pyOpenGL
+        pip3 install --user gym
+        pip3 install --user pyOpenGL
     elif [[ $VE == true ]]; then
-        pip install gym
-        pip install pyOpenGL
+        pip3 install gym
+        pip3 install pyOpenGL
     fi
 
-    if [[ -d "$ROBOSCHOOL_PATH" ]]; then 
-        echo "Roboschool already installed"
-        exit
-    fi
     mkdir -p $ROBOSCHOOL_PATH
-
-    mkdir -p ${HOME}/opt
     sudo apt install -y \
         cmake ffmpeg pkg-config qtbase5-dev \
-        libqt5opengl5-dev libassimp-dev libpython3.5-dev \
+        libqt5opengl5-dev libassimp-dev libpython-dev \
         libboost-python-dev libtinyxml-dev
 
     cd $ROBOSCHOOL_PATH
@@ -124,20 +120,15 @@ if [[ $INSTALL == true ]]; then
     make -j8
     make install
     
-    #cd bullet3
-    #rm -fr build_cmake || true
-    #./build_cmake_pybullet_double.sh || true
+    echo install
+
     mkdir -p $ROBOSCHOOL_PATH/bin
 
     cp examples/SharedMemory/App_PhysicsServer_SharedMemory $ROBOSCHOOL_PATH/bin/physics_server
     cp $SCRIPTPATH/b3serv $ROBOSCHOOL_PATH/bin/
 
     cd $ROBOSCHOOL_PATH
-    if [[ $VE == false ]]; then
-        pip install --user -e .
-    elif [[ $VE == true ]]; then
-        pip install -e .
-    fi
+    pip3 install -e .
 
 
     echo "export PATH=\$PATH:$ROBOSCHOOL_PATH/bin" >> ${HOME}/.bashrc
