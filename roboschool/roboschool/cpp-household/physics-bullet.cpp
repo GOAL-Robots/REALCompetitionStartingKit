@@ -3,6 +3,8 @@
 #include <QtCore/QDir>
 #include <QtCore/QElapsedTimer>
 #include <fstream>
+#include <chrono>
+#include <thread>
 
 namespace Household {
 
@@ -18,6 +20,13 @@ void World::bullet_init(float gravity, float timestep)
     
     // SHARED_MEMORY_KEY contains the memory key number to give to the server
     // ${ROBOSCHOOL_PATH}/bullet3/build_cmake/examples/SharedMemory/App_PhysicsServer_SharedMemory --shared_memory_key=$(cat SHARED_MEMORY_KEY)
+    
+
+    while(std::ifstream("STOP").good()) {
+        std::this_thread::sleep_for(std::chrono::milliseconds(20));
+        if(!std::ifstream ("STOPPED").good()) std::ofstream("STOPPED");
+    }
+
     std::ifstream mkey("SHARED_MEMORY_KEY");
     if(mkey.good()) {
         int key;
