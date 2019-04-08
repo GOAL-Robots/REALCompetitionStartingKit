@@ -283,6 +283,11 @@
         <dynamics damping="0.5"/>
     </joint>
     <link name="finger_00">
+        <contact>
+            <restitution value="0.1" />
+            <rolling_friction value="0.0001"/>
+            <spinning_friction value="0.0001"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="2.0"/>
@@ -312,6 +317,11 @@
         <dynamics damping="0.5"/>
     </joint>  
     <link name="finger_01">
+        <contact>
+            <restitution value="0.1" />
+            <rolling_friction value="0.0001"/>
+            <spinning_friction value="0.0001"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="2.0"/>
@@ -346,6 +356,11 @@
         <dynamics damping="0.5"/>
     </joint>
     <link name="finger_10">
+        <contact>
+            <restitution value="0.1" />
+            <rolling_friction value="0.0001"/>
+            <spinning_friction value="0.0001"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0.02"/>
             <mass value="2.0"/>
@@ -375,6 +390,11 @@
         <dynamics damping="0.5"/>
     </joint>  
     <link name="finger_11">
+        <contact>
+            <restitution value="0.1" />
+            <rolling_friction value="0.0001"/>
+            <spinning_friction value="0.0001"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="2.0"/>

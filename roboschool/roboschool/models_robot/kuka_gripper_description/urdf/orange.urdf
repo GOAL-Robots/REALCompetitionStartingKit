@@ -1,11 +1,15 @@
 <?xml version="1.0" ?>
 <robot name="orange" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <link name="orange">
+        <contact>
+            <restitution value="0.1" />
+            <rolling_friction value="0.0001"/>
+            <spinning_friction value="0.0001"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
             <mass value="0.2"/>
-            <inertia ixx="-0.493902692352" ixy="-0.7074305146880" ixz="1.69215393792" iyy="-8.351624200192" iyz="-0.176650354688" izz="-8.064961347584"/>
-
+            <inertia ixx="1.39" ixy="0" ixz="0" iyy="1.070" iyz="0" izz="1.198"/>
         </inertial>
         <visual>
             <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
