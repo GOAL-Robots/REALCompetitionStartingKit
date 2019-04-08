@@ -1,0 +1,26 @@
+<?xml version="2.0" ?>
+<robot name="banana" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="banana">
+        <inertial>
+            <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
+            <mass value="0.2"/>
+            <inertia ixx="0.000988666" ixy="-0.000149083" ixz="0.000017707" iyy="0.000988802" iyz="0.000009507" izz="0.000999798"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/banana.obj"/>
+            </geometry>
+            <material name="banana">
+                <texture filename="package://kuka_gripper_description/meshes/banana.png"/>
+            </material> 
+        </visual>
+        <collision>
+            <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/banana.obj"/>
+            </geometry>
+        </collision>
+    </link>
+</robot>
+

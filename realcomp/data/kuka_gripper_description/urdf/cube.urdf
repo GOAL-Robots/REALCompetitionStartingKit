@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<robot name="cube" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="cube_0">
+        <contact>
+            <restitution value="0.1" />
+            <rolling_friction value="0.0001"/>
+            <spinning_friction value="0.0001"/>
+        </contact>
+        <inertial>
+            <origin rpy="0 0 0.0" xyz="0 0 0.06"/>
+            <mass value="0.6"/>
+            <inertia ixx="0.05" ixy="0" ixz="0" iyy="0.05" iyz="0" izz="0.05"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0.06"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/cube.obj"/>
+            </geometry>
+            <material name="cube">
+                <texture filename="package://kuka_gripper_description/meshes/cube.png"/>
+            </material> 
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0.06"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/cube.obj"/>
+            </geometry>
+        </collision>
+    </link>
+</robot>
+

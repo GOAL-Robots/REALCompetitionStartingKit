@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<robot name="hammer" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="hammer">
+        <inertial>
+            <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
+            <mass value="0.2"/>
+            <inertia ixx="0.11" ixy="0" ixz="0" iyy="0.003" iyz="0.0" izz="0.12"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/hammer.obj"/>
+            </geometry>
+            <material name="hammer">
+                <texture filename="package://kuka_gripper_description/meshes/hammer.png"/>
+            </material> 
+        </visual>
+        <collision>
+            <origin rpy="0 0 0.0" xyz="-0.1 -0.1 0.2"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/hammer.obj"/>
+            </geometry>
+        </collision>
+    </link>
+</robot>
+

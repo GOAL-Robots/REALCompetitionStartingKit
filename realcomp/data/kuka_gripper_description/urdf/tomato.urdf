@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<robot name="tomato" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <link name="tomato">
+        <inertial>
+            <origin rpy="0 0 0.0" xyz="-0.2 -0.2 0.03"/>
+            <mass value="1."/>
+            <inertia ixx="0.05" ixy="00" ixz="00" iyy="0.03" iyz="0.00" izz="0.06"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0.0" xyz="-0.2 -0.2 0.03"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/tomato.obj"/>
+            </geometry>
+            <material name="tomato">
+                <texture filename="package://kuka_gripper_description/meshes/tomato_soup_can.png"/>
+            </material> 
+        </visual>
+        <collision>
+            <origin rpy="0 0 0.0" xyz="-0.2 -0.2 0.03"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/tomato.obj"/>
+            </geometry>
+        </collision>
+    </link>
+</robot>
+

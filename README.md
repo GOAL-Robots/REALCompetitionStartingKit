@@ -12,28 +12,27 @@ Tested on Ubuntu (>= Ubuntu 16.04)
 </TABLE>
 
 ### Install
-To install all needed stuff run:
+cd path/to/realcomp 
+pip install -e .
 
-    install/install.sh
+### Dependencies
+
+pybullet
 
 ### Usage
 Using the env:
 ```python
         from OpenGL import GLU
-        import roboschool
+        import realcomp
         import gym
 
         def demo_run():
         
-            env = gym.make("RoboschoolKuka-v1")
-            
-            # uncomment these lines to enable the eye camera
-            # env.unwrapped.set_eyeEnable(False)
-            # env.unwrapped.set_eyeShow(False)
+            env = gym.make('KukaRealComp-v0')
+            env.render('human')
             
             # uncomment and/or change these lines to choose the objects to use
-            # env.unwrapped.used_objects = ["BANANA", "HAMMER", "TOMATO_SOUP_CAN", 
-            #                               "MUSTARD", "ORANGE"]
+            # env.unwrapped.used_objects = ['tomato', 'mustard', 'orange']
 
             obs = env.reset()  
     
@@ -42,10 +41,10 @@ Using the env:
                 action = myRobotFunc(state, reward, info_)
                 
                 # do action
-                state, reward, done, info_ = env.step(action)
+                state, reward, done, info = env.step(action)
                 
-                # render
-                still_open = env.render("human")
+                # get frame for storage 
+                rgb_array = env.render('rgb_array')
                              
         if __name__=="__main__":
             demo_run()
