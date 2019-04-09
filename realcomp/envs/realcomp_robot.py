@@ -92,7 +92,7 @@ class Kuka(URDFBasedRobot):
 
     def calc_state(self):
         state = np.vstack([part.get_position() for _,part in  self.parts.items()])
-        state = np.hstack([state, object_bodies[self.target].get_position()])
+        state = np.hstack([state, self.object_bodies[self.target].get_position()])
         return state        
  
 def get_object(bullet_client, object_file, x, y, z):
