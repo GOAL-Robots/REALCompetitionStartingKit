@@ -1,6 +1,9 @@
 <?xml version="1.0" ?>
 <robot name="table" xmlns:xacro="http://www.ros.org/wiki/xacro">
     <link name="table">
+        <contact>
+            <lateral_friction value="1.0"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="0.0"/>
