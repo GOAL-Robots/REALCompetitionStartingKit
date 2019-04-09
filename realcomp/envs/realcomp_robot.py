@@ -24,11 +24,11 @@ class Kuka(URDFBasedRobot):
                 "hammer",
                 "tomato"]
         self.object_poses = {
-                "table":   [0  ,  0  ,  0  ],
-                "orange":  [0  ,  0  ,  0.6],
-                "mustard": [0  , -0.4,  0.6],
-                "hammer":  [0.1,  0.2,  0.6],
-                "tomato":  [0  ,  0.4,  0.6]}
+                "table":   [0  ,  0  ,  0    ,  0  ,  0   ,  0   ],
+                "orange":  [0  ,  0  ,  0.6  ,  0  ,  0   ,  0   ],
+                "mustard": [0  , -0.4,  0.6  ,  0  ,  1.54,  0   ],
+                "hammer":  [0.1,  0.2,  0.6  ,  0  ,  0   ,  0   ],
+                "tomato":  [0  ,  0.4,  0.6  ,  0  ,  0   ,  0   ]}
         self.target = "orange"
 
         self.object_names = dict()
@@ -95,13 +95,15 @@ class Kuka(URDFBasedRobot):
         state = np.hstack([state, self.object_bodies[self.target].get_position()])
         return state        
  
-def get_object(bullet_client, object_file, x, y, z):
+def get_object(bullet_client, object_file, x, y, z, roll=0, pitch=0, yaw=0):
 
     position = [x, y, z]
+    orientation = bullet_client.getQuaternionFromEuler([roll, pitch, yaw])
     fixed = True
     body = bullet_client.loadURDF(
             fileName=os.path.join(pybullet_data.getDataPath(), object_file),
             basePosition=position,
+            baseOrientation=orientation,
             useFixedBase=False,
             flags=bullet_client.URDF_USE_INERTIA_FROM_FILE)
     part_name, _ = bullet_client.getBodyInfo(body)
