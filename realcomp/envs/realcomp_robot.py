@@ -10,8 +10,8 @@ class Kuka(URDFBasedRobot):
     def __init__(self):
          
         self.action_dim = 9
-        self.body_parts = 12 
-        self.obs_dim = 12*3
+        self.body_parts = 9 + 3 
+        self.obs_dim = (9 + 3)*3
         
         URDFBasedRobot.__init__(self, 
                 'kuka_gripper_description/urdf/kuka_gripper.urdf', 
@@ -29,6 +29,7 @@ class Kuka(URDFBasedRobot):
                 "mustard": [0  , -0.4,  0.6],
                 "hammer":  [0.1,  0.2,  0.6],
                 "tomato":  [0  ,  0.4,  0.6]}
+        self.target = "orange"
 
         self.object_names = dict()
         self.object_bodies = dict()
@@ -91,6 +92,7 @@ class Kuka(URDFBasedRobot):
 
     def calc_state(self):
         state = np.vstack([part.get_position() for _,part in  self.parts.items()])
+        state = np.hstack([state, object_bodies[self.target].get_position()])
         return state        
  
 def get_object(bullet_client, object_file, x, y, z):
