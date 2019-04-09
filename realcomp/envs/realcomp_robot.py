@@ -91,7 +91,7 @@ class Kuka(URDFBasedRobot):
         self.jdict["finger10_to_finger11_joint"].set_position(-a[-1])
 
     def calc_state(self):
-        state = np.vstack([part.get_position() for _,part in  self.parts.items()])
+        state = np.hstack([part.get_position() for _,part in  self.parts.items()])
         state = np.hstack([state, self.object_bodies[self.target].get_position()])
         return state        
  
