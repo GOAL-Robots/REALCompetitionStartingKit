@@ -26,7 +26,7 @@ class Kuka(URDFBasedRobot):
         self.object_poses = {
                 "table":   [0   ,  0  ,  0    ,  0  ,  0   ,  0   ],
                 "orange":  [-0.1,  0  ,  0.55  ,  0  ,  0   ,  0   ],
-                "mustard": [-0.1, -0.4,  0.55  ,  0  ,  0   ,  0   ],
+                "mustard": [ 0  , -0.4,  0.55  ,  0  ,  0   ,  1.54   ],
                 "hammer":  [0   ,  0.2,  0.55  ,  0  ,  0   ,  0   ],
                 "tomato":  [-0.1,  0.4,  0.55  ,  0  ,  0   ,  0   ]}
         self.target = "orange"
