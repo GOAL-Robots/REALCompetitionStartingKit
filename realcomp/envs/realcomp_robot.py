@@ -24,11 +24,11 @@ class Kuka(URDFBasedRobot):
                 "hammer",
                 "tomato"]
         self.object_poses = {
-                "table":   [0  ,  0  ,  0    ,  0  ,  0   ,  0   ],
-                "orange":  [0  ,  0  ,  0.6  ,  0  ,  0   ,  0   ],
-                "mustard": [0  , -0.4,  0.6  ,  0  ,  1.54,  0   ],
-                "hammer":  [0.1,  0.2,  0.6  ,  0  ,  0   ,  0   ],
-                "tomato":  [0  ,  0.4,  0.6  ,  0  ,  0   ,  0   ]}
+                "table":   [0   ,  0  ,  0    ,  0  ,  0   ,  0   ],
+                "orange":  [-0.1,  0  ,  0.55  ,  0  ,  0   ,  0   ],
+                "mustard": [-0.1, -0.4,  0.55  ,  0  ,  0   ,  0   ],
+                "hammer":  [0   ,  0.2,  0.55  ,  0  ,  0   ,  0   ],
+                "tomato":  [-0.1,  0.4,  0.55  ,  0  ,  0   ,  0   ]}
         self.target = "orange"
 
         self.object_names = dict()

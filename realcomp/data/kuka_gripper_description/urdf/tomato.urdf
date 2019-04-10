@@ -7,12 +7,12 @@
             <spinning_friction value="0.001"/>
         </contact>
         <inertial>
-            <origin rpy="0 0 0.0" xyz="-0.2 -0.2 0.03"/>
+            <origin rpy="0 0 0.0" xyz="0 0 0"/>
             <mass value="0.2"/>
             <inertia ixx="6e-4" ixy="0" ixz="0" iyy="6e-4" iyz="0.00" izz="6e-4"/>
         </inertial>
         <visual>
-            <origin rpy="0 0 0.0" xyz="-0.2 -0.2 0.03"/>
+            <origin rpy="0 0 0.0" xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://kuka_gripper_description/meshes/tomato.obj" />
             </geometry>
@@ -21,7 +21,7 @@
             </material> 
         </visual>
         <collision>
-            <origin rpy="0 0 0.0" xyz="-0.2 -0.2 0.03"/>
+            <origin rpy="0 0 0.0" xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://kuka_gripper_description/meshes/tomato.obj" />
             </geometry>
