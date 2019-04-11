@@ -283,16 +283,16 @@
     <joint name="base_to_finger00_joint" type="revolute">
         <parent link="base"/>
         <child link="finger_00"/>
-        <origin rpy="0 0 0" xyz="0.043510971786833857 0 0"/>
+        <origin rpy="0 0 0" xyz="0.023510971786833857 0 0"/>
         <axis xyz="0 1 0"/>
         <limit effort="300" lower="0" upper="1.5707963267948966" velocity="10"/>
         <dynamics damping="0.5"/>
     </joint>
     <link name="finger_00">
         <contact>
-            <restitution value="0.1" />
-            <rolling_friction value="0.0001"/>
-            <spinning_friction value="0.0001"/>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
         </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -324,9 +324,9 @@
     </joint>  
     <link name="finger_01">
         <contact>
-            <restitution value="0.1" />
-            <rolling_friction value="0.0001"/>
-            <spinning_friction value="0.0001"/>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
         </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -356,16 +356,16 @@
     <joint name="base_to_finger10_joint" type="revolute">
         <parent link="base"/>
         <child link="finger_10"/>
-        <origin rpy="0 0 3.141592653589793" xyz="-0.043510971786833857 0 0"/>
+        <origin rpy="0 0 3.141592653589793" xyz="-0.023510971786833857 0 0"/>
         <axis xyz="0 1 0"/>
         <limit effort="300" lower="0" upper="1.5707963267948966" velocity="10"/>
         <dynamics damping="0.5"/>
     </joint>
     <link name="finger_10">
         <contact>
-            <restitution value="0.1" />
-            <rolling_friction value="0.0001"/>
-            <spinning_friction value="0.0001"/>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
         </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0.02"/>
@@ -397,9 +397,9 @@
     </joint>  
     <link name="finger_11">
         <contact>
-            <restitution value="0.1" />
-            <rolling_friction value="0.0001"/>
-            <spinning_friction value="0.0001"/>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
         </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
