@@ -302,14 +302,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj" scale="1 0.7 0.7"/>
             </geometry>
             <material name="LightGrey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj" scale="1 0.7 0.7"/>
             </geometry>
         </collision>
     </link> 
@@ -317,7 +317,7 @@
     <joint name="finger00_to_finger01_joint" type="revolute">
         <parent link="finger_00"/>
         <child link="finger_01"/>
-        <origin rpy="0 0 0" xyz="0 0 0.109717868338558"/>
+        <origin rpy="0 0 0" xyz="0 0  0.0768025078369906"/>
         <axis xyz="0 1 0"/>
         <limit effort="300" upper="-1.5707963267948966" lower="0" velocity="10"/>
         <dynamics damping="0.5"/>
@@ -336,14 +336,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj" scale="1 0.7 0.7"/>
             </geometry>
             <material name="LightGrey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj" scale="1 0.7 0.7"/>
             </geometry>
         </collision>
     </link> 
@@ -375,14 +375,14 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj" scale="1 0.7 0.7"/>
             </geometry>
             <material name="LightGrey"/>
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj" scale="1 0.7 0.7"/>
             </geometry>
         </collision>
     </link> 
@@ -390,7 +390,7 @@
     <joint name="finger10_to_finger11_joint" type="revolute">
         <parent link="finger_10"/>
         <child link="finger_11"/>
-        <origin rpy="0 0 0" xyz="0 0 0.109717868338558"/>
+        <origin rpy="0 0 0" xyz="0 0 0.0768025078369906"/>
         <axis xyz="0 1 0"/>
         <limit effort="300" upper="-1.5707963267948966" lower="0" velocity="10"/>
         <dynamics damping="0.5"/>
@@ -409,7 +409,7 @@
         <visual>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj" scale="1 0.7 0.7"/>
             </geometry>
             <material name="LightGrey"/>
             <material name="LightGrey">
@@ -419,7 +419,7 @@
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
-                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj"/>
+                <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj" scale="1 0.7 0.7"/>
             </geometry>
         </collision>
     </link> 
