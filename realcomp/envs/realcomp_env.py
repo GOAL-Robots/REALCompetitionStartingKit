@@ -44,7 +44,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=9.81, 
-                timestep=0.0165, frame_skip=1)
+                timestep=0.005, frame_skip=1)
     
     def reset(self):
         super(REALCompEnv, self).reset()
