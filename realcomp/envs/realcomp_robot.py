@@ -6,6 +6,20 @@ from robot_bases import BodyPart
 
 
 class Kuka(URDFBasedRobot):
+    
+    used_objects = [
+            "table",
+            "orange",
+            "mustard",
+            "hammer",
+            "tomato"]
+
+    object_poses = {
+            "table":   [ 0.00,  0.00,  0.00, 0.00, 0.00, 0.00],
+            "orange":  [-0.10,  0.00,  0.55, 0.00, 0.00, 0.00],
+            "mustard": [ 0.00, -0.40,  0.55, 0.00, 0.00, 1.54],
+            "hammer":  [ 0.00,  0.20,  0.55, 0.00, 0.00, 0.00],
+            "tomato":  [-0.10,  0.40,  0.55, 0.00, 0.00, 0.00]}
 
     def __init__(self):
          
@@ -17,18 +31,6 @@ class Kuka(URDFBasedRobot):
                 'kuka_gripper_description/urdf/kuka_gripper.urdf', 
                 'kuka0', action_dim=self.action_dim, obs_dim=self.obs_dim)
 
-        self.used_objects = [
-                "table",
-                "orange",
-                "mustard",
-                "hammer",
-                "tomato"]
-        self.object_poses = {
-                "table":   [0   ,  0  ,  0    ,  0  ,  0   ,  0   ],
-                "orange":  [-0.1,  0  ,  0.55  ,  0  ,  0   ,  0   ],
-                "mustard": [ 0  , -0.4,  0.55  ,  0  ,  0   ,  1.54   ],
-                "hammer":  [0   ,  0.2,  0.55  ,  0  ,  0   ,  0   ],
-                "tomato":  [-0.1,  0.4,  0.55  ,  0  ,  0   ,  0   ]}
         self.target = "orange"
 
         self.object_names = dict()
