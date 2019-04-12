@@ -20,6 +20,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
         self.robot = Kuka()
         MJCFBaseBulletEnv.__init__(self, self.robot, render)
+        
         self._cam_dist = 1.2
         self._cam_yaw = 30
         self._cam_roll = 0
@@ -27,11 +28,11 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self._render_width = 320
         self._render_height = 240
         self._cam_pos = [0,0,.4]
-        self.initCamera()
+        self.setCamera()
 
         self.reward_func = DefaultRewardFunc
    
-    def initCamera(self):
+    def setCamera(self):
         self.envCamera = kCamera(
                 distance=self._cam_dist, 
                 yaw=self._cam_yaw,
@@ -40,11 +41,6 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 pos=self._cam_pos,
                 width=self._render_width,
                 height=self._render_height)
-
-    def setCameraSize(self, width, height):
-        self._render_width = width
-        self._render_height = height
-        self.initCamera()
 
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=9.81, 
