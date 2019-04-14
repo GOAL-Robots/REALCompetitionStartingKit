@@ -377,7 +377,9 @@
             <geometry>
                 <mesh filename="package://kuka_gripper_description/meshes/finger_0.obj" scale="1 0.7 0.7"/>
             </geometry>
-            <material name="LightGrey"/>
+            <material name="LightGrey">
+                <texture filename="package://kuka_gripper_description/meshes/LightGrey.png"/>
+            </material>   
         </visual>
         <collision>
             <origin rpy="0 0 0" xyz="0 0 0"/>
@@ -411,7 +413,6 @@
             <geometry>
                 <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj" scale="1 0.7 0.7"/>
             </geometry>
-            <material name="LightGrey"/>
             <material name="LightGrey">
                 <texture filename="package://kuka_gripper_description/meshes/LightGrey.png"/>
             </material>   
@@ -420,6 +421,106 @@
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <geometry>
                 <mesh filename="package://kuka_gripper_description/meshes/finger_1.obj" scale="1 0.7 0.7"/>
+            </geometry>
+        </collision>
+    </link> 
+    <joint name="finger00_to_skin_joint" type="fixed">
+        <parent link="finger_00"/>
+        <child link="skin_00"/>
+        <origin rpy="0 0 -3" xyz="-0.011 0 0.045"/>
+    </joint>  
+    <link name="skin_00">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="2.0"/>
+            <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.7"/>
+            </geometry>
+            <material name="Blue"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.7"/>
+            </geometry>
+        </collision>
+    </link> 
+    <joint name="finger10_to_skin_joint" type="fixed">
+        <parent link="finger_10"/>
+        <child link="skin_10"/>
+        <origin rpy="0 0 3" xyz="-0.011 0 0.045"/>
+    </joint>  
+    <link name="skin_10">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="2.0"/>
+            <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.7"/>
+            </geometry>
+            <material name="Blue"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.7"/>
+            </geometry>
+        </collision>
+    </link> 
+    <joint name="finger01_to_skin_joint" type="fixed">
+        <parent link="finger_01"/>
+        <child link="skin_01"/>
+        <origin rpy="0 0 -3" xyz="-0.013 0 0.045"/>
+    </joint>  
+    <link name="skin_01">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="2.0"/>
+            <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.3"/>
+            </geometry>
+            <material name="Blue"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.3"/>
+            </geometry>
+        </collision>
+    </link> 
+    <joint name="finger11_to_skin_joint" type="fixed">
+        <parent link="finger_11"/>
+        <child link="skin_11"/>
+        <origin rpy="0 0 -3" xyz="-0.013 0 0.045"/>
+    </joint>  
+    <link name="skin_11">
+        <inertial>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <mass value="2.0"/>
+            <inertia ixx="1.0" ixy="0" ixz="0" iyy="1.0" iyz="0" izz="1.0"/>
+        </inertial>
+        <visual>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.3"/>
+            </geometry>
+            <material name="Blue"/>
+        </visual>
+        <collision>
+            <origin rpy="0 0 0" xyz="0 0 0"/>
+            <geometry>
+                <mesh filename="package://kuka_gripper_description/meshes/skin_0.obj" scale ="1 0.7 0.3"/>
             </geometry>
         </collision>
     </link> 
