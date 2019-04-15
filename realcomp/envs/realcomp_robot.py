@@ -24,6 +24,7 @@ class Kuka(URDFBasedRobot):
     def __init__(self):
 
         self.robot_position = [-0.8, 0, 0]
+        self.contact_threshold = 0.005
 
         self.action_dim = 9
         self.body_parts = 9 + 3 
@@ -47,13 +48,14 @@ class Kuka(URDFBasedRobot):
     def get_contacts(self):    
         contact_dict = {}
         for part_name, part in self.parts.items():         
-            contacts= []
+            contacts = []
             for contact in part.contact_list():
-                name = self.object_names[contact[2]] 
-                if part_name in contact_dict.keys():
-                    contact_dict[part_name].append(name)
-                else:
-                    contact_dict[part_name]= [name]  
+                if abs(contact[8]) < self.contact_threshold:
+                    name = self.object_names[contact[2]] 
+                    if part_name in contact_dict.keys():
+                        contact_dict[part_name].append(name)
+                    else:
+                        contact_dict[part_name]= [name]  
         return contact_dict
     
     def robot_specific_reset(self, bullet_client):
