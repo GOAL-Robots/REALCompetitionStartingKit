@@ -15,7 +15,9 @@ import pyglet, pyglet.window as pw, pyglet.window.key as pwk
 from pyglet import gl
 
 class PygletInteractiveWindow(pw.Window):
+    
     def __init__(self, env, width, height):
+
         pw.Window.__init__(self, width=width, height=height, vsync=False, resizable=True)
         self.theta = 0
         self.still_open = True
@@ -34,6 +36,7 @@ class PygletInteractiveWindow(pw.Window):
         self.human_done = False
 
     def imshow(self, arr):
+
         H, W, C = arr.shape
         assert C==3
         image = pyglet.image.ImageData(W, H, 'RGB', arr.tobytes(), pitch=W*-3)
@@ -50,6 +53,7 @@ class PygletInteractiveWindow(pw.Window):
 
 
 class RandomPolicy:
+
     def __init__(self, action_space):
         self.action_space = action_space
         self.action = np.zeros(action_space.shape[0])
@@ -60,6 +64,7 @@ class RandomPolicy:
 
 
 def main():
+
     env = gym.make("REALComp-v0")
     env.robot.used_objects = ["table", "tomato", "mustard", "orange"]
     env.setEye("eye0")
@@ -71,7 +76,6 @@ def main():
     env.reset() 
 
     for k in range(10):
-    
         for t in range(400):
             time.sleep(1./10000.)
             a = pi.act()
@@ -82,4 +86,5 @@ def main():
             p.imshow(rgb)
 
 if __name__=="__main__":
+    
     main()

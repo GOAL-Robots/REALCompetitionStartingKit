@@ -116,9 +116,11 @@ class EnvCamera:
                 pitch=self.pitch,
                 roll=self.roll,
                 upAxisIndex=2)
+
         proj_matrix = bullet_client.computeProjectionMatrixFOV(
                 fov=self.fov, aspect=float(self.render_width)/self.render_height,
                 nearVal=0.1, farVal=100.0)
+
         (_, _, px, _, _) = bullet_client.getCameraImage(
                 width=self.render_width, height=self.render_height,
                 viewMatrix=view_matrix,
@@ -143,8 +145,16 @@ class EyeCamera:
         self.render_width = width
         self.render_height = height
         self._p = None
+        self.pitch_roll = False
+    
+    def render(self, *args, **kargs):
+        if self.pitch_roll is True:
+            return self.renderPitchRoll(*args, **kargs)
+        else:
+            return self.renderTarget(*args, **kargs)
 
-    def render(self, targetPosition, bullet_client = None):
+
+    def renderTarget(self, targetPosition, bullet_client = None):
         
         if bullet_client is None:
             bullet_client = self._p
@@ -159,6 +169,7 @@ class EyeCamera:
         proj_matrix = bullet_client.computeProjectionMatrixFOV(
                 fov=self.fov, aspect=float(self.render_width)/self.render_height,
                 nearVal=0.1, farVal=100.0)
+
         (_, _, px, _, _) = bullet_client.getCameraImage(
                 width=self.render_width, height=self.render_height,
                 viewMatrix=view_matrix,
@@ -171,6 +182,36 @@ class EyeCamera:
 
         return rgb_array
             
+    def renderPitchRoll(self, distance, roll, pitch, yaw, bullet_client = None):
+        
+        if bullet_client is None:
+            bullet_client = self._p
 
+        self.targetPosition = targetPosition
+
+        view_matrix = bullet_client.computeViewMatrixFromYawPitchRoll(
+                cameraTargetPosition = self.pos,
+                distance=distance,
+                yaw=yaw,
+                pitch=pitch,
+                roll=roll,
+                upAxisIndex=2)
+
+        proj_matrix = bullet_client.computeProjectionMatrixFOV(
+                fov=self.fov, aspect=float(self.render_width)/self.render_height,
+                nearVal=0.1, farVal=100.0)
+
+        (_, _, px, _, _) = bullet_client.getCameraImage(
+                width=self.render_width, height=self.render_height,
+                viewMatrix=view_matrix,
+                projectionMatrix=proj_matrix,
+                renderer=pybullet.ER_BULLET_HARDWARE_OPENGL
+                )
+
+        rgb_array = np.array(px)
+        rgb_array = rgb_array[:, :, :3]
+
+        return rgb_array
+            
 
 
