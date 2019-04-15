@@ -10,6 +10,7 @@ import gym
 import numpy as np
 from realcomp import envs
 import time
+
 import pyglet, pyglet.window as pw, pyglet.window.key as pwk
 from pyglet import gl
 
