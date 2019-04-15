@@ -56,10 +56,10 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 timestep=0.005, frame_skip=1)
     
     def reset(self):
+
         super(REALCompEnv, self).reset()
         self._p.setGravity(0.,0.,-9.81)
         self.camera._p = self._p
-        
         for name in self.eyes.keys():
            self.eyes[name]._p = self._p
         
@@ -73,7 +73,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
             if mode != "rgb_array":
                     return np.array([])
 
-            rgb_array = self.envCamera.render()
+            rgb_array = self.envCamera.render(self._p)
             return rgb_array
 
     def step(self, a):
@@ -104,9 +104,10 @@ class EnvCamera:
         self.render_width = width
         self.render_height = height
 
-    def render(self):
+    def render(self, bullet_client = None):
         
-        bullet_client = self._p
+        if bullet_client is None:
+            bullet_client = self._p
 
         view_matrix = bullet_client.computeViewMatrixFromYawPitchRoll(
                 cameraTargetPosition = self.pos,
@@ -130,7 +131,6 @@ class EnvCamera:
 
         return rgb_array
             
-
 class EyeCamera:
 
     def __init__(self, eyePosition, targetPosition,
@@ -144,9 +144,10 @@ class EyeCamera:
         self.render_height = height
         self._p = None
 
-    def render(self, targetPosition):
-
-        bullet_client = self._p
+    def render(self, targetPosition, bullet_client = None):
+        
+        if bullet_client is None:
+            bullet_client = self._p
 
         self.targetPosition = targetPosition
 
