@@ -4,6 +4,8 @@ import numpy as np
 import pybullet
 from .realcomp_robot import Kuka
 
+import sys
+
 #import kukacomp.data as data
 #bullet_client.setAdditionalSearchPath(data.getDataPath())
 
@@ -29,11 +31,12 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self._render_height = 240
         self._cam_pos = [0,0,.4]
         self.setCamera()
+        self.eyes = {}
 
         self.reward_func = DefaultRewardFunc
    
     def setCamera(self):
-        self.envCamera = kCamera(
+        self.envCamera = EnvCamera(
                 distance=self._cam_dist, 
                 yaw=self._cam_yaw,
                 pitch=self._cam_pitch, 
@@ -41,6 +44,12 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 pos=self._cam_pos,
                 width=self._render_width,
                 height=self._render_height)
+    
+    def setEye(self, name):
+        pos = self.robot.robot_position.copy()
+        pos[2] = 1.4
+        cam = EyeCamera(pos, [0, 0, 0])
+        self.eyes[name] = cam
 
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=9.81, 
@@ -50,6 +59,10 @@ class REALCompEnv(MJCFBaseBulletEnv):
         super(REALCompEnv, self).reset()
         self._p.setGravity(0.,0.,-9.81)
         self.camera._p = self._p
+        
+        for name in self.eyes.keys():
+           self.eyes[name]._p = self._p
+        
         self._p.resetDebugVisualizerCamera(
                 self._cam_dist, self._cam_yaw, 
                 self._cam_pitch, self._cam_pos)
@@ -60,7 +73,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
             if mode != "rgb_array":
                     return np.array([])
 
-            rgb_array = self.envCamera.render(self._p)
+            rgb_array = self.envCamera.render()
             return rgb_array
 
     def step(self, a):
@@ -77,7 +90,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
         return state, reward, done, info
 
-class kCamera:
+class EnvCamera:
 
     def __init__(self, distance, yaw, pitch, roll, pos, 
             fov=80, width=320, height=240):
@@ -91,7 +104,9 @@ class kCamera:
         self.render_width = width
         self.render_height = height
 
-    def render(self, bullet_client):
+    def render(self):
+        
+        bullet_client = self._p
 
         view_matrix = bullet_client.computeViewMatrixFromYawPitchRoll(
                 cameraTargetPosition = self.pos,
@@ -116,7 +131,45 @@ class kCamera:
         return rgb_array
             
 
+class EyeCamera:
 
+    def __init__(self, eyePosition, targetPosition,
+            fov=80, width=320, height=240):
+        
+        self.eyePosition = eyePosition
+        self.targetPosition = targetPosition
+        self.upVector = [0, 0, 1]
+        self.fov = fov
+        self.render_width = width
+        self.render_height = height
+        self._p = None
+
+    def render(self, targetPosition):
+
+        bullet_client = self._p
+
+        self.targetPosition = targetPosition
+
+        view_matrix = bullet_client.computeViewMatrix(
+                cameraEyePosition = self.eyePosition,
+                cameraTargetPosition = self.targetPosition,
+                cameraUpVector=self.upVector)
+
+        proj_matrix = bullet_client.computeProjectionMatrixFOV(
+                fov=self.fov, aspect=float(self.render_width)/self.render_height,
+                nearVal=0.1, farVal=100.0)
+        (_, _, px, _, _) = bullet_client.getCameraImage(
+                width=self.render_width, height=self.render_height,
+                viewMatrix=view_matrix,
+                projectionMatrix=proj_matrix,
+                renderer=pybullet.ER_BULLET_HARDWARE_OPENGL
+                )
+
+        rgb_array = np.array(px)
+        rgb_array = rgb_array[:, :, :3]
+
+        return rgb_array
+            
 
 
 

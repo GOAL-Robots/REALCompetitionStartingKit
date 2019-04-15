@@ -61,12 +61,16 @@ class RandomPolicy:
 
 def main():
     env = gym.make("REALComp-v0")
+    env.robot.used_objects = ["table", "tomato", "mustard", "orange"]
+    env.setEye("eye0")
+    
     pi = RandomPolicy(env.action_space)
-    env.render("human")
     p = PygletInteractiveWindow(env, 320, 240)
 
+    env.render("human")
+    env.reset() 
+
     for k in range(10):
-        env.reset() 
     
         for t in range(400):
             time.sleep(1./10000.)
@@ -74,7 +78,7 @@ def main():
             obs, r, done, info = env.step(a)
             if len(info["contacts"]) > 0 :
                 print(info["contacts"])
-            rgb = env.render("rgb_array")
+            rgb = env.eyes["eye0"].render(env.robot.parts["finger_01"].get_position())
             p.imshow(rgb)
 
 if __name__=="__main__":

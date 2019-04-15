@@ -22,7 +22,9 @@ class Kuka(URDFBasedRobot):
             "tomato":  [-0.10,  0.40,  0.55, 0.00, 0.00, 0.00]}
 
     def __init__(self):
-         
+
+        self.robot_position = [-0.8, 0, 0]
+
         self.action_dim = 9
         self.body_parts = 9 + 3 
         self.obs_dim = (9 + 3)*3
@@ -56,8 +58,7 @@ class Kuka(URDFBasedRobot):
     
     def robot_specific_reset(self, bullet_client):
 
-        self.robot_body.reset_position([-0.8, 0, 0])
-
+        self.robot_body.reset_position(self.robot_position)
 
         self.object_bodies["kuka"] = self.robot_body
         self.object_names[0] = "kuka"
