@@ -24,7 +24,7 @@ class Kuka(URDFBasedRobot):
     def __init__(self):
 
         self.robot_position = [-0.8, 0, 0]
-        self.contact_threshold = 0.005
+        self.contact_threshold = 0.1
 
         self.action_dim = 9
         self.body_parts = 9 + 3 
