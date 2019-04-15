@@ -23,7 +23,7 @@ if __name__ == "__main__":
     env.robot.object_poses["mustard"][2] = 1 
     env.render("human")
 
-    stime = 200
+    stime = 200000
     rollout = np.zeros([9, stime])
     rollout[0, int(stime*1/10):] +=  np.pi*0.18
     rollout[1, int(stime*3/10):] +=  np.pi*0.06

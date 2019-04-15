@@ -430,6 +430,11 @@
         <origin rpy="0 0 -3" xyz="-0.011 0 0.045"/>
     </joint>  
     <link name="skin_00">
+        <contact>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="0.0"/>
@@ -455,6 +460,11 @@
         <origin rpy="0 0 3" xyz="-0.011 0 0.045"/>
     </joint>  
     <link name="skin_10">
+        <contact>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="0.0"/>
@@ -480,6 +490,11 @@
         <origin rpy="0 0 -3" xyz="-0.013 0 0.045"/>
     </joint>  
     <link name="skin_01">
+        <contact>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="0.0"/>
@@ -505,6 +520,11 @@
         <origin rpy="0 0 -3" xyz="-0.013 0 0.045"/>
     </joint>  
     <link name="skin_11">
+        <contact>
+            <restitution value="0.05" />
+            <rolling_friction value="0.01"/>
+            <spinning_friction value="0.01"/>
+        </contact>
         <inertial>
             <origin rpy="0 0 0" xyz="0 0 0"/>
             <mass value="0.0"/>
