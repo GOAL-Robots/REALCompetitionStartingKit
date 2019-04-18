@@ -1,11 +1,11 @@
 # REALCompetitionStartingKit
 Tested on Ubuntu (>= Ubuntu 16.04)
 
-<TABLE " BORDER="0">
+<TABLE " width="100%" BORDER="0">
 <TR>
-<TD><img src="docs/figs/demo0.gif" alt="demo0" width="33%"></TD>
-<TD><img src="docs/figs/demo1.gif" alt="demo1" width="33%"></TD>
-<TD><img src="docs/figs/demo2.gif" alt="demo1" width="33%"></TD>
+<TD><img src="docs/figs/demo0.gif" alt="demo0" width="100%"></TD>
+<TD><img src="docs/figs/demo1.gif" alt="demo1" width="100%"></TD>
+<TD><img src="docs/figs/demo2.gif" alt="demo1" width="100%"></TD>
 </TR>
 </TABLE>
 
