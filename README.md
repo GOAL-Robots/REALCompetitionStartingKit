@@ -1,7 +1,8 @@
 # REALCompetitionStartingKit
 Tested on Ubuntu (>= Ubuntu 16.04)
 
-<TABLE " BORDER="0">
+<TABLE  ORDER="0">
+
 <TR>
 <TD><img src="docs/figs/demo0.gif" alt="demo0" width="33%"></TD>
 <TD><img src="docs/figs/demo1.gif" alt="demo1" width="33%"></TD>
