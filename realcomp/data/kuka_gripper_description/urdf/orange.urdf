@@ -8,9 +8,9 @@
         </contact>
         <inertial>
             <origin rpy="0 0 0.0" xyz="0 0 0"/>
-            <mass value="0.2"/>
-            <inertia ixx="1.0e-07" ixy="0" ixz="0" 
-                iyy="1.2e-07" iyz="0" izz="1.0e-07"/>
+            <mass value="0.5"/>
+            <inertia ixx="1.0e-03" ixy="0" ixz="0" 
+                iyy="1.2e-03" iyz="0" izz="1.0e-03"/>
         </inertial>
         <visual>
             <origin rpy="0 0 0.0" xyz="0 0 0"/>

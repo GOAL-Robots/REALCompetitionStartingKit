@@ -23,17 +23,47 @@ if __name__ == "__main__":
     env.robot.object_poses["mustard"][2] = 1 
     env.render("human")
 
-    stime = 200000
-    rollout = np.zeros([9, stime])
-    rollout[0, int(stime*1/10):] +=  np.pi*0.18
-    rollout[1, int(stime*3/10):] +=  np.pi*0.06
-    rollout[6, int(stime*4/10):] +=  np.pi*0.4
-    rollout[7, int(stime*5/10):] +=  np.pi*0.3
-    rollout[5, int(stime*6/10):] +=  np.pi*0.4
-    rollout[7, int(stime*7/10):] -=  np.pi*0.35
-    rollout[8, int(stime*7/10):] +=  np.pi*0.05
-    rollout[5, int(stime*8/10):] -=  np.pi*0.4
+    stime = 20000
+    gap = int(20000/300)
 
+    rollout = np.zeros([9, stime])
+    
+    class K:
+        def __init__(self):
+            self.i = 0
+        def __call__(self):
+            self.i += 1
+            return self.i
+    k = K()
+
+
+    # rollout[0, int(k()*gap):]  +=  np.pi*0.18
+    # rollout[1, int(k()*gap):]  +=  np.pi*0.06
+    # rollout[6, int(k()*gap):]  +=  np.pi*0.4
+    # rollout[7, int(k()*gap):]  +=  np.pi*0.3
+    # rollout[5, int(k()*gap):]  +=  np.pi*0.4
+    # rollout[7, int(k()*gap):]  -=  np.pi*0.26
+    # rollout[8, int(k()*gap):]  +=  np.pi*0.05
+    # rollout[5, int(k()*gap):]  -=  np.pi*0.4
+    # for t in np.linspace(k()*gap, k()*gap, gap):
+    #     rollout[5, int(t):]   +=  np.pi*0.4/gap
+    # rollout[8, int(k()*gap):]  -=  np.pi*0.05
+    # rollout[7, int(k()*gap):]  +=  np.pi*0.26
+    # rollout[5, int(k()*gap):]  -=  np.pi*0.4
+    # rollout[7, int(k()*gap):]  -=  np.pi*0.3
+    # rollout[6, int(k()*gap):]  -=  np.pi*0.4
+    # rollout[1, int(k()*gap):]  -=  np.pi*0.06
+    # rollout[0, int(k()*gap):]  -=  np.pi*0.18
+    rollout[1, int(k()*gap):]  +=  np.pi*0.0
+    rollout[6, int(k()*gap):]  +=  np.pi*0.4
+    rollout[7, int(k()*gap):]  +=  np.pi*0.3
+    rollout[3, int(k()*gap):]  -=  np.pi*0.2
+    rollout[5, int(k()*gap):]  -=  np.pi*0.45
+    rollout[8, int(k()*gap):]  +=  np.pi*0.05
+    for t in np.linspace(k()*gap, (k()+2)*gap, 35*gap):
+        rollout[7, int(t):]  -=  np.pi*0.27/(35*gap)
+    for t in range(35): k()
+    rollout[5, int(k()*gap):]  -=  np.pi*0.4
 
     env.reset()
     for t in range(len(rollout.T)): 
@@ -55,6 +85,6 @@ if __name__ == "__main__":
         if len(info_["contacts"]) > 0:
             print(info_["contacts"])
         
-        time.sleep(1/60)
+        time.sleep(1/200)
 
     
