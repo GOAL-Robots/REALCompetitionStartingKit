@@ -18,17 +18,24 @@ class Kuka(URDFBasedRobot):
             "table":   [ 0.00,  0.00,  0.00, 0.00, 0.00, 0.00],
             "orange":  [-0.10,  0.00,  0.55, 0.00, 0.00, 0.00],
             "mustard": [ 0.00, -0.40,  0.55, 0.00, 0.00, 1.54],
-            "hammer":  [ 0.00,  0.20,  0.55, 0.00, 0.00, 0.00],
+            "hammer":  [ 0.00,  0.20,  0.55, 0.00, 0.00, 0.00], 
             "tomato":  [-0.10,  0.40,  0.55, 0.00, 0.00, 0.00]}
+
+    num_joints = 9
+    num_kuka_joints = 7
+    num_gripper_joints = 2
+    num_touch_sensors = 4
+    eye_width = 320
+    eye_height = 240
 
     def __init__(self):
 
         self.robot_position = [-0.8, 0, 0]
         self.contact_threshold = 0.1
 
-        self.action_dim = 9
-        self.body_parts = 9 + 3 
-        self.obs_dim = (9 + 3)*3
+        self.action_dim = self.num_joints
+        self.obs_dim = self.num_joints + self.num_touch_sensors \
+                + self.eye_width*self.eye_height
         
         URDFBasedRobot.__init__(self, 
                 'kuka_gripper_description/urdf/kuka_gripper.urdf', 
@@ -44,20 +51,43 @@ class Kuka(URDFBasedRobot):
     def reset(self, bullet_client):
         bullet_client.resetSimulation()
         super(Kuka, self).reset(bullet_client)
+        return self.calc_state()
     
-    def get_contacts(self):    
+    def get_contacts(self, forces=False):    
+
         contact_dict = {}
         for part_name, part in self.parts.items():         
             contacts = []
             for contact in part.contact_list():
                 if abs(contact[8]) < self.contact_threshold:
                     name = self.object_names[contact[2]] 
-                    if part_name in contact_dict.keys():
-                        contact_dict[part_name].append(name)
+                    if not forces:
+                        if part_name in contact_dict.keys():
+                            contact_dict[part_name].append(name)
+                        else:
+                            contact_dict[part_name]= [name]  
                     else:
-                        contact_dict[part_name]= [name]  
+                        force = contact[9]
+                        if part_name in contact_dict.keys():
+                            contact_dict[part_name].append([name, force])
+                        else:
+                            contact_dict[part_name]= [(name, force)]  
+
         return contact_dict
     
+    def get_touch_sensors(self): 
+        
+        sensors = np.zeros(4)
+        contacts = self.get_contacts(forces=True)
+        for i, skin in enumerate(["skin_00", "skin_01", "skin_10", "skin_11"]):
+            if skin in contacts.keys():
+                cnts = contacts[skin]   
+                if len(cnts) > 0:
+                    force = np.max([cnt[1] for cnt in cnts])
+                    sensors[i] = force
+                
+            return sensors, contacts
+
     def robot_specific_reset(self, bullet_client):
 
         self.robot_body.reset_position(self.robot_position)
@@ -81,7 +111,7 @@ class Kuka(URDFBasedRobot):
 
     def apply_action(self, a):
         assert (np.isfinite(a).all())
-        assert(len(a) == 9)
+        assert(len(a) == self.num_joints)
 
         a[:-2] = np.maximum(-np.pi*0.5, np.minimum(np.pi*0.5, a[:-2]))
         a[-2:] = np.maximum( 0, np.minimum(np.pi*0.5, a[-2:]))
@@ -96,9 +126,16 @@ class Kuka(URDFBasedRobot):
         self.jdict["finger10_to_finger11_joint"].set_position(-a[-1])
 
     def calc_state(self):
-        state = np.hstack([part.get_position() for _,part in  self.parts.items()])
-        state = np.hstack([state, self.object_bodies[self.target].get_position()])
-        return state        
+        joints = []
+        for i in range(self.num_kuka_joints):
+            joints.append(self.jdict["lbr_iiwa_joint_%d"%(i+1)].get_position())
+        joints.append(self.jdict["base_to_finger00_joint"].get_position())
+        joints.append(-self.jdict["finger00_to_finger01_joint"].get_position())
+        
+        return joints 
+
+
+
  
 def get_object(bullet_client, object_file, x, y, z, roll=0, pitch=0, yaw=0):
 

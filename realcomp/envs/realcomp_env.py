@@ -9,13 +9,9 @@ import sys
 #import kukacomp.data as data
 #bullet_client.setAdditionalSearchPath(data.getDataPath())
 
-def DefaultRewardFunc(contact_dict, state):
-    
-    finger_touch = np.sum([ len([contact for contact in contacts 
-        if not "table" in contact]) for part, contacts 
-        in contact_dict.items() if "finger" in part ])
-
-    return finger_touch
+def DefaultRewardFunc(sensors):
+    # Uses only touch sensors
+    return np.sum(sensors[Kuka.num_joints:(Kuka.num_joints + Kuka.num_touch_sensors)])
 
 class REALCompEnv(MJCFBaseBulletEnv):
     def __init__(self, render=False):
@@ -34,7 +30,10 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self.eyes = {}
 
         self.reward_func = DefaultRewardFunc
-   
+        
+        self.robot.used_objects = ["table", "tomato", "mustard", "orange"]
+        self.setEye("eye")
+         
     def setCamera(self):
         self.envCamera = EnvCamera(
                 distance=self._cam_dist, 
@@ -46,8 +45,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 height=self._render_height)
     
     def setEye(self, name):
-        pos = self.robot.robot_position.copy()
-        pos[2] = 1.4
+        pos = [0.01, 0, 1.2]
         cam = EyeCamera(pos, [0, 0, 0])
         self.eyes[name] = cam
 
@@ -67,6 +65,10 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 self._cam_dist, self._cam_yaw, 
                 self._cam_pitch, self._cam_pos)
 
+        state,_ = self.calc_state()
+        
+        return state
+
     def render(self, mode='human', close=False):
             if mode == "human":
                     self.isRender = True
@@ -75,18 +77,39 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
             rgb_array = self.envCamera.render(self._p)
             return rgb_array
+    
+    def get_retina(self):
+        return self.eyes["eye"].render(self.robot.object_bodies["table"].get_position()) 
+ 
+    
+    def calc_state(self):
+        joints = self.robot.calc_state()
+        sensors, contacts = self.robot.get_touch_sensors()
+        retina = self.get_retina()
+        state = np.hstack([joints, sensors, retina.flatten()])
+        return state, contacts
+
+    def control_objects_limits(self):
+
+        for obj in self.robot.used_objects:
+            x, y, z = self.robot.object_bodies[obj].get_position()
+            if not ( -0.2 < x < 0.2) or not ( -0.5 < y < 0.5) or z < 0.33:
+                self.robot.object_bodies[obj].reset_position(
+                        self.robot.object_poses[obj][:3])
 
     def step(self, a):
         assert(not self.scene.multiplayer)
         
+        self.control_objects_limits()
+        
         self.robot.apply_action(a)
-        self.scene.global_step()
-        state = self.robot.calc_state()
-        contacts = self.robot.get_contacts()
-        reward = self.reward_func(contacts, state)
-
+        self.scene.global_step()        
+        state, contacts = self.calc_state() 
+        reward = self.reward_func(state)       
         done = False
+
         info = {"contacts": contacts}
+        
 
         return state, reward, done, info
 
@@ -132,7 +155,7 @@ class EnvCamera:
         rgb_array = rgb_array[:, :, :3]
 
         return rgb_array
-            
+     
 class EyeCamera:
 
     def __init__(self, eyePosition, targetPosition,

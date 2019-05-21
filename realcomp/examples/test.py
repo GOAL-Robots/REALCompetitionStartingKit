@@ -14,6 +14,36 @@ import time
 import pyglet, pyglet.window as pw, pyglet.window.key as pwk
 from pyglet import gl
 
+
+def main():
+
+    env = gym.make("REALComp-v0")
+    
+    pi = RandomPolicy(env.action_space)
+    p = PygletInteractiveWindow(env, 320, 240)
+
+    #env.render("human")
+    
+    start = time.time()
+
+    for k in range(1):
+        observation = env.reset()
+        for t in range(10000):
+            #print(t)
+            #time.sleep(1./100.)
+            a = pi.act()
+            a[3] += -np.pi*0.5
+            observation, reward, done, info = env.step(a)
+            #sensors_rng = range(env.robot.num_joints, (env.robot.num_joints + env.robot.num_touch_sensors))
+            #print(observation[sensors_rng])
+            #retina_start_idx = env.robot.num_joints + env.robot.num_touch_sensors
+            #w = env.robot.eye_width
+            #h = env.robot.eye_height
+            #retina = observation[retina_start_idx:].reshape(w, h, 3)
+            #print(retina)
+            #p.imshow(env.get_retina())
+    print(time.time() - start)
+
 class PygletInteractiveWindow(pw.Window):
     
     def __init__(self, env, width, height):
@@ -63,27 +93,7 @@ class RandomPolicy:
         return self.action
 
 
-def main():
 
-    env = gym.make("REALComp-v0")
-    env.robot.used_objects = ["table", "tomato", "mustard", "orange"]
-    env.setEye("eye0")
-    
-    pi = RandomPolicy(env.action_space)
-    p = PygletInteractiveWindow(env, 320, 240)
-
-    env.render("human")
-    env.reset() 
-
-    for k in range(10):
-        for t in range(400):
-            time.sleep(1./10000.)
-            a = pi.act()
-            obs, r, done, info = env.step(a)
-            if len(info["contacts"]) > 0 :
-                print(info["contacts"])
-            rgb = env.eyes["eye0"].render(env.robot.parts["finger_01"].get_position())
-            p.imshow(rgb)
 
 if __name__=="__main__":
     
