@@ -27,7 +27,7 @@ Using the env:
 
         def demo_run():
         
-            env = gym.make('KukaRealComp-v0')
+            env = gym.make('REALComp-v0')
             env.render('human')
             
             # uncomment and/or change these lines to choose the objects to use

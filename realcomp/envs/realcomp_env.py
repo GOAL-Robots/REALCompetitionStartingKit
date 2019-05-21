@@ -35,6 +35,9 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self.setEye("eye")
          
     def setCamera(self):
+        '''
+        initialize environment camera
+        '''
         self.envCamera = EnvCamera(
                 distance=self._cam_dist, 
                 yaw=self._cam_yaw,
@@ -45,6 +48,9 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 height=self._render_height)
     
     def setEye(self, name):
+        '''
+        initialize eye
+        '''
         pos = [0.01, 0, 1.2]
         cam = EyeCamera(pos, [0, 0, 0])
         self.eyes[name] = cam
@@ -79,10 +85,16 @@ class REALCompEnv(MJCFBaseBulletEnv):
             return rgb_array
     
     def get_retina(self):
+        '''
+        :return: the current rgb_array for the eye
+        '''
         return self.eyes["eye"].render(self.robot.object_bodies["table"].get_position()) 
  
     
     def calc_state(self):
+        '''
+        get contacts and compute sensors' activations
+        '''
         joints = self.robot.calc_state()
         sensors, contacts = self.robot.get_touch_sensors()
         retina = self.get_retina()
@@ -90,7 +102,9 @@ class REALCompEnv(MJCFBaseBulletEnv):
         return state, contacts
 
     def control_objects_limits(self):
-
+        '''
+        reset positions if an object goes out of the limits
+        '''
         for obj in self.robot.used_objects:
             x, y, z = self.robot.object_bodies[obj].get_position()
             if not ( -0.2 < x < 0.2) or not ( -0.5 < y < 0.5) or z < 0.33:

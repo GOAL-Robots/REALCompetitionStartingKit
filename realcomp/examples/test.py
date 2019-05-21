@@ -22,7 +22,7 @@ def main():
     pi = RandomPolicy(env.action_space)
     p = PygletInteractiveWindow(env, 320, 240)
 
-    env.render("human")
+    env.render("rgb_array")
 
     for k in range(10):
         observation = env.reset()
@@ -88,9 +88,6 @@ class RandomPolicy:
     def act(self):
         self.action += 0.4*np.pi*np.random.randn(self.action_space.shape[0])
         return self.action
-
-
-
 
 if __name__=="__main__":
     
