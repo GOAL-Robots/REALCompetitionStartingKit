@@ -22,27 +22,23 @@ def main():
     pi = RandomPolicy(env.action_space)
     p = PygletInteractiveWindow(env, 320, 240)
 
-    #env.render("human")
-    
-    start = time.time()
+    env.render("human")
 
-    for k in range(1):
+    for k in range(10):
         observation = env.reset()
-        for t in range(10000):
-            #print(t)
-            #time.sleep(1./100.)
+        for t in range(40):
+            time.sleep(1./1000.)
             a = pi.act()
-            a[3] += -np.pi*0.5
             observation, reward, done, info = env.step(a)
-            #sensors_rng = range(env.robot.num_joints, (env.robot.num_joints + env.robot.num_touch_sensors))
-            #print(observation[sensors_rng])
-            #retina_start_idx = env.robot.num_joints + env.robot.num_touch_sensors
-            #w = env.robot.eye_width
-            #h = env.robot.eye_height
-            #retina = observation[retina_start_idx:].reshape(w, h, 3)
-            #print(retina)
-            #p.imshow(env.get_retina())
-    print(time.time() - start)
+            
+            sensors_rng = range(env.robot.num_joints, (env.robot.num_joints + env.robot.num_touch_sensors))
+            print(observation[sensors_rng])
+            
+            retina_start_idx = env.robot.num_joints + env.robot.num_touch_sensors
+            w = env.robot.eye_width
+            h = env.robot.eye_height
+            retina = observation[retina_start_idx:].reshape(w, h, 3)
+            p.imshow(env.get_retina())
 
 class PygletInteractiveWindow(pw.Window):
     
@@ -87,9 +83,10 @@ class RandomPolicy:
     def __init__(self, action_space):
         self.action_space = action_space
         self.action = np.zeros(action_space.shape[0])
+        self.action += -np.pi*0.5
 
     def act(self):
-        self.action += 0.1*np.pi*np.random.randn(self.action_space.shape[0])
+        self.action += 0.4*np.pi*np.random.randn(self.action_space.shape[0])
         return self.action
 
 
