@@ -5,15 +5,15 @@ currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentfram
 parentdir = os.path.dirname(os.path.dirname(currentdir))
 os.sys.path.insert(0,parentdir)
 
+import time
+import numpy as np
+
 import pybullet
 import gym
-import numpy as np
 from realcomp import envs
-import time
 
 import pyglet, pyglet.window as pw, pyglet.window.key as pwk
 from pyglet import gl
-
 
 def main():
 
@@ -22,7 +22,7 @@ def main():
     pi = RandomPolicy(env.action_space)
     p = PygletInteractiveWindow(env, 320, 240)
 
-    env.render("human")
+    env.r:ender("human")
 
     for k in range(10):
         observation = env.reset()
@@ -30,15 +30,7 @@ def main():
             time.sleep(1./1000.)
             a = pi.act()
             observation, reward, done, info = env.step(a)
-            
-            sensors_rng = range(env.robot.num_joints, (env.robot.num_joints + env.robot.num_touch_sensors))
-            print(observation[sensors_rng])
-            
-            retina_start_idx = env.robot.num_joints + env.robot.num_touch_sensors
-            w = env.robot.eye_width
-            h = env.robot.eye_height
-            retina = observation[retina_start_idx:].reshape(w, h, 3)
-            p.imshow(env.get_retina())
+            p.imshow(observation[env.robot.ObsSpaces.RETINA])
 
 class PygletInteractiveWindow(pw.Window):
     

@@ -2,7 +2,9 @@ from robot_bases import MJCFBasedRobot, URDFBasedRobot
 import numpy as np
 import pybullet_data
 import os
+import gym
 from robot_bases import BodyPart
+
 
 
 class Kuka(URDFBasedRobot):
@@ -27,6 +29,12 @@ class Kuka(URDFBasedRobot):
     num_touch_sensors = 4
     eye_width = 320
     eye_height = 240
+    
+    class ObsSpaces: 
+        JOINT_POSITIONS = "joint_positions"
+        TOUCH_SENSORS = "touch_sensors"
+        RETINA = "retina"
+        GOAL = "goal"
 
     def __init__(self):
 
@@ -34,12 +42,20 @@ class Kuka(URDFBasedRobot):
         self.contact_threshold = 0.1
 
         self.action_dim = self.num_joints
-        self.obs_dim = self.num_joints + self.num_touch_sensors \
-                + self.eye_width*self.eye_height
         
         URDFBasedRobot.__init__(self, 
                 'kuka_gripper_description/urdf/kuka_gripper.urdf', 
-                'kuka0', action_dim=self.action_dim, obs_dim=self.obs_dim)
+                'kuka0', action_dim=self.action_dim, obs_dim=1)
+              
+        self.observation_space = gym.spaces.Dict({
+            self.ObsSpaces.JOINT_POSITIONS: gym.spaces.Box(
+                -np.inf, np.inf, [self.num_joints], dtype = float),
+            self.ObsSpaces.TOUCH_SENSORS: gym.spaces.Box(
+                0, np.inf, [self.num_touch_sensors], dtype = float),
+            self.ObsSpaces.RETINA: gym.spaces.Box(
+                0, 255, [Kuka.eye_height, Kuka.eye_width, 3], dtype = float),
+            self.ObsSpaces.GOAL: gym.spaces.Box(
+                0, 255, [Kuka.eye_height, Kuka.eye_width, 3], dtype = float)})
 
         self.target = "orange"
 
@@ -71,7 +87,7 @@ class Kuka(URDFBasedRobot):
                         if part_name in contact_dict.keys():
                             contact_dict[part_name].append([name, force])
                         else:
-                            contact_dict[part_name]= [(name, force)]  
+                            contact_dict[part_name] = [(name, force)]  
 
         return contact_dict
     
@@ -86,7 +102,7 @@ class Kuka(URDFBasedRobot):
                     force = np.max([cnt[1] for cnt in cnts])
                     sensors[i] = force
                 
-            return sensors, contacts
+            return sensors 
 
     def robot_specific_reset(self, bullet_client):
 

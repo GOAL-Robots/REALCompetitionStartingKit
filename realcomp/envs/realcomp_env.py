@@ -2,18 +2,29 @@ from pybullet_envs.scene_abstract import SingleRobotEmptyScene
 from pybullet_envs.env_bases import MJCFBaseBulletEnv
 import numpy as np
 import pybullet
-from .realcomp_robot import Kuka
+import gym 
+from .realcomp_robot import Kuka 
 
 import sys
 
 #import kukacomp.data as data
-#bullet_client.setAdditionalSearchPath(data.getDataPath())
+#bullet_client.setAdditionalSearchPath(dataObsSpaces.getDataPath())
 
-def DefaultRewardFunc(sensors):
-    # Uses only touch sensors
-    return np.sum(sensors[Kuka.num_joints:(Kuka.num_joints + Kuka.num_touch_sensors)])
+def DefaultRewardFunc(observation):
+    return 0
+
+class Goal:
+    def __init__(self, initial_state=[0, 0, 0], 
+            final_state=[0, 0, 0], retina=None):
+        self.initial_state = initial_state
+        self.final_state = final_state
+        self.retina = retina
 
 class REALCompEnv(MJCFBaseBulletEnv):
+    
+    intrinsic_timesteps = 50 # int(1e7)
+    extrinsic_timesteps = 50 # int(1e3)
+    
     def __init__(self, render=False):
 
         self.robot = Kuka()
@@ -32,8 +43,13 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self.reward_func = DefaultRewardFunc
         
         self.robot.used_objects = ["table", "tomato", "mustard", "orange"]
-        self.setEye("eye")
-         
+        self.set_eye("eye")
+
+        self.goal = Goal(retina=self.observation_space.spaces[
+            self.robot.ObsSpaces.GOAL].sample()*0)
+        self.goals = None
+        self.goal_idx = -1
+   
     def setCamera(self):
         '''
         initialize environment camera
@@ -47,7 +63,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 width=self._render_width,
                 height=self._render_height)
     
-    def setEye(self, name):
+    def set_eye(self, name):
         '''
         initialize eye
         '''
@@ -55,6 +71,14 @@ class REALCompEnv(MJCFBaseBulletEnv):
         cam = EyeCamera(pos, [0, 0, 0])
         self.eyes[name] = cam
 
+    def set_goal(self):
+        if self.goals is None:
+            self.goals = np.load("goals_dataset.npy")
+            self.goal_idx = 0
+        goal = self.goals[self.goal_idx]
+        self.goal_idx += 1
+
+        
     def create_single_player_scene(self, bullet_client):
         return SingleRobotEmptyScene(bullet_client, gravity=9.81, 
                 timestep=0.005, frame_skip=1)
@@ -71,9 +95,9 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 self._cam_dist, self._cam_yaw, 
                 self._cam_pitch, self._cam_pos)
 
-        state,_ = self.calc_state()
+        self.timestep = 0
         
-        return state
+        return self.get_observation()
 
     def render(self, mode='human', close=False):
             if mode == "human":
@@ -90,17 +114,6 @@ class REALCompEnv(MJCFBaseBulletEnv):
         '''
         return self.eyes["eye"].render(self.robot.object_bodies["table"].get_position()) 
  
-    
-    def calc_state(self):
-        '''
-        get contacts and compute sensors' activations
-        '''
-        joints = self.robot.calc_state()
-        sensors, contacts = self.robot.get_touch_sensors()
-        retina = self.get_retina()
-        state = np.hstack([joints, sensors, retina.flatten()])
-        return state, contacts
-
     def control_objects_limits(self):
         '''
         reset positions if an object goes out of the limits
@@ -111,21 +124,46 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 self.robot.object_bodies[obj].reset_position(
                         self.robot.object_poses[obj][:3])
 
-    def step(self, a):
+    def get_observation(self):
+
+        joints = self.robot.calc_state()
+        sensors = self.robot.get_touch_sensors()
+        retina = self.get_retina()
+        
+        observation = {
+                Kuka.ObsSpaces.JOINT_POSITIONS: joints,
+                Kuka.ObsSpaces.TOUCH_SENSORS: sensors,
+                Kuka.ObsSpaces.RETINA: retina,
+                Kuka.ObsSpaces.GOAL: self.goal.retina }
+
+        return observation
+
+
+    def step(self, action):
         assert(not self.scene.multiplayer)
         
         self.control_objects_limits()
+        self.robot.apply_action(action)
+        self.scene.global_step()  
+
         
-        self.robot.apply_action(a)
-        self.scene.global_step()        
-        state, contacts = self.calc_state() 
-        reward = self.reward_func(state)       
+        observation = self.get_observation()
+
+        reward = self.reward_func(observation)       
+        
         done = False
+        if self.goal_idx < 0:
+            if self.timestep >= self.intrinsic_timesteps:
+                done = True
+        else:
+            if self.timestep >= self.extrinsic_timesteps:
+                done = True
 
-        info = {"contacts": contacts}
+        info = {}
         
+        self.timestep += 1
 
-        return state, reward, done, info
+        return observation, reward, done, info
 
 class EnvCamera:
 
