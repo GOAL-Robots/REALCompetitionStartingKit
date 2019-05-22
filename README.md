@@ -30,17 +30,14 @@ Using the env:
             env = gym.make('REALComp-v0')
             env.render('human')
             
-            # uncomment and/or change these lines to choose the objects to use
-            # env.unwrapped.used_objects = ['tomato', 'mustard', 'orange']
-
-            obs = env.reset()  
+            observation = env.reset()  
     
             while True:
                 # Call your controller to chose action 
                 action = myRobotFunc(state, reward, info_)
                 
                 # do action
-                state, reward, done, info = env.step(action)
+                observation, reward, done, info = env.step(action)
                 
                 # get frame for storage 
                 rgb_array = env.render('rgb_array')
