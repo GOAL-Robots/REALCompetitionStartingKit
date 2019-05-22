@@ -22,7 +22,7 @@ def main():
     pi = RandomPolicy(env.action_space)
     p = PygletInteractiveWindow(env, 320, 240)
 
-    env.render("rgb_array")
+    env.render("human")
 
     for k in range(10):
         observation = env.reset()
