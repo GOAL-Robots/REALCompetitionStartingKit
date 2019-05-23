@@ -69,5 +69,4 @@ def demo_run(extrinsic_trials=10):
             # rgb_array = env.render('rgb_array')
 
 if __name__=="__main__":
-    print(dir())
     demo_run()
