@@ -52,7 +52,7 @@ To install the REAL Competition Starting Kit on windows in the anaconda envirome
 
 4) download the REALCompetitionStartingKit repo:
 
-git clone https://github.com/GOAL-Robots/REALCompetitionStartingKit.git
+       git clone https://github.com/GOAL-Robots/REALCompetitionStartingKit.git
 
 5) install the REALCompetitionStartingKit package:
 
