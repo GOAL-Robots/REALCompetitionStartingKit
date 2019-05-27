@@ -79,7 +79,7 @@ for t in range(10):
     observation, reward, done, _ = env.step(action)
 
 ```
-Its ```step(action)``` attribute gets as input a vector of 9 joint positions in radiants.
+The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positions in radiants.
 
 | index |  joint name                             |
 | ----- | --------------------------------------- |
