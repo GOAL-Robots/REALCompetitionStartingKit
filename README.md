@@ -18,16 +18,16 @@ To install the REAL Competition Starting Kit on linux
 
 1) install gym and pybullet packages:
 
-    pip install gym pybullet
+       pip install gym pybullet
 
 2) download the REALCompetitionStartingKit repo:
 
-git clone https://github.com/GOAL-Robots/REALCompetitionStartingKit.git
+       git clone https://github.com/GOAL-Robots/REALCompetitionStartingKit.git
 
 3) install the REALCompetitionStartingKit package:
 
-cd REALCompetitionStartingKit
-pip install -e .
+       cd REALCompetitionStartingKit
+       pip install -e .
 
 #### Windows - anaconda
 
@@ -40,15 +40,15 @@ To install the REAL Competition Starting Kit on windows in the anaconda envirome
 
 3) create a python virtual environment
 
-    conda create -n pyenv numpy pip
+       conda create -n pyenv numpy pip
 
 4) activate the virtual environment
 
-    conda activate pyenv
+       conda activate pyenv
 
 3) install gym and pybullet packages:
 
-    pip install gym pybullet
+       pip install gym pybullet
 
 4) download the REALCompetitionStartingKit repo:
 
@@ -56,8 +56,8 @@ git clone https://github.com/GOAL-Robots/REALCompetitionStartingKit.git
 
 5) install the REALCompetitionStartingKit package:
 
-cd REALCompetitionStartingKit
-pip install -e .
+       cd REALCompetitionStartingKit
+       pip install -e .
 
 
 
