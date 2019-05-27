@@ -63,6 +63,39 @@ To install the REAL Competition Starting Kit on windows in the anaconda envirome
 
 ### Basic usage
 
+The environment is a standard gym environment and can be called alone as shownd here:
+
+```python
+
+env = gym.make('REALComp-v0')
+
+observation = env.reset()  
+for t in range(10):
+    
+    # Call your controller to chose action 
+    action = controller.step(observation, reward, done)
+    
+    # do action
+    observation, reward, done, _ = env.step(action)
+
+```
+Its ```step(action)``` attribute gets as input a vector of 9 joint positions in radiants.
+
+| index |  joint name                             |
+| ----- | --------------------------------------- |
+|  0    |  kuka0-to-kuka1 joint                   |
+|  1    |  kuka1-to-kuka2 joint                   |
+|  2    |  kuka2-to-kuka3 joint                   |
+|  3    |  kuka3-to-kuka4 joint                   |
+|  4    |  kuka4-to-kuka5 joint                   |
+|  5    |  kuka5-to-kuka6 joint                   |
+|  6    |  kuka6-to-kuka7 joint                   |
+|  7    |  gripperbase-to-lowerphalanges joint    |
+|  8    |  lowerphalanges-to-upperphalanges joint |
+
+      
+
+
 Using the env:
 
 ```python
