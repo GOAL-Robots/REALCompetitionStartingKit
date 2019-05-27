@@ -10,6 +10,7 @@ Tested on Ubuntu (>= Ubuntu 16.04)
 </TABLE>
 
 ### Install
+cd path/to/realcomp 
 
 #### Linux
 
@@ -65,11 +66,11 @@ pip install -e .
 Using the env:
 
 ```python
-from OpenGL import GLU
+        from OpenGL import GLU
 import numpy as np
-import realcomp
+        import realcomp
 from realcomp.envs.realcomp_env import Goal
-import gym
+        import gym
 
 class RandomPolicy:
     """
@@ -86,28 +87,28 @@ class RandomPolicy:
 Controller = RandomPolicy
 
 def demo_run(extrinsic_trials=10):
-
-    env = gym.make('REALComp-v0')
+        
+            env = gym.make('REALComp-v0')
     controller = Controller(env.action_space)
-    
+            
     # render simulation on screen
     # env.render('human')
     
     # reset simulation
-    observation = env.reset()  
+            observation = env.reset()  
     reward = 0 
     done = False
-
+    
     # intrinsic phase
     print("Starting intrinsic phase...")
     while not done:
         
-        # Call your controller to chose action 
+                # Call your controller to chose action 
         action = controller.step(observation, reward, done)
-        
-        # do action
+                
+                # do action
         observation, reward, done, _ = env.step(action)
-        
+                
         # get frames for video making
         # rgb_array = env.render('rgb_array')
         
@@ -134,9 +135,9 @@ def demo_run(extrinsic_trials=10):
             
             # get frames for video making
             # rgb_array = env.render('rgb_array')
-
-if __name__=="__main__":
-    demo_run()
+                             
+        if __name__=="__main__":
+            demo_run()
 
 ```
 
