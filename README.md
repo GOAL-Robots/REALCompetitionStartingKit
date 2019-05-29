@@ -79,6 +79,9 @@ for t in range(10):
     observation, reward, done, _ = env.step(action)
 
 ```
+It includes a 7DoF kuka arm with a 2Dof gripper, a table with 3 objects on it and a camera looking at the table from the top. 
+The gripper has four touch sensors on the inner part of its links.
+
 #### Actions
 The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positions in radiants.
 
@@ -105,11 +108,21 @@ The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positi
 </TR>
 </TABLE>
 
+#### Observations
+The ```observation``` object returns by```env.step``` is a dictionary:
+* observation["joint_positions"] is a vector containing the current angles of the 9 joints
+* observation["touch_sensors"] is a vector containing the current touch intensity at the four touch sensors (see figure below)
+* observation["retina"] is a 320x240x3 array with the current top camera image
+* observation["goal"] is a 320x240x3 array with the target top camera state (all zeros except for the extrinsic phase, see below the task description)
 
-      
+<TABLE " width="100%" BORDER="0">
+<TR>
+</TD>
+<TD><img src="docs/figs/kuka_gripper_sensors.png" alt="kuka_sensors" width="40%"></TD>
+</TR>
+</TABLE>
 
-
-Using the env:
+### Task
 
 ```python
         from OpenGL import GLU
