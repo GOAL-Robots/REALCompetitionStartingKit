@@ -13,14 +13,6 @@ import numpy as np
 if __name__ == "__main__":
     
     env = gym.make("REALComp-v0")
-    env._render_width = 640
-    env._render_height = 480
-    env._cam_yaw = 180
-    env.setCamera()
-
-    env.reward_func = lambda x, y: 0
-    env.robot.used_objects = ["table", "tomato", "mustard", "orange"]
-    env.robot.object_poses["mustard"][2] = 1 
     env.render("human")
 
     stime = 20000
@@ -37,23 +29,6 @@ if __name__ == "__main__":
     k = K()
 
 
-    # rollout[0, int(k()*gap):]  +=  np.pi*0.18
-    # rollout[1, int(k()*gap):]  +=  np.pi*0.06
-    # rollout[6, int(k()*gap):]  +=  np.pi*0.4
-    # rollout[7, int(k()*gap):]  +=  np.pi*0.3
-    # rollout[5, int(k()*gap):]  +=  np.pi*0.4
-    # rollout[7, int(k()*gap):]  -=  np.pi*0.26
-    # rollout[8, int(k()*gap):]  +=  np.pi*0.05
-    # rollout[5, int(k()*gap):]  -=  np.pi*0.4
-    # for t in np.linspace(k()*gap, k()*gap, gap):
-    #     rollout[5, int(t):]   +=  np.pi*0.4/gap
-    # rollout[8, int(k()*gap):]  -=  np.pi*0.05
-    # rollout[7, int(k()*gap):]  +=  np.pi*0.26
-    # rollout[5, int(k()*gap):]  -=  np.pi*0.4
-    # rollout[7, int(k()*gap):]  -=  np.pi*0.3
-    # rollout[6, int(k()*gap):]  -=  np.pi*0.4
-    # rollout[1, int(k()*gap):]  -=  np.pi*0.06
-    # rollout[0, int(k()*gap):]  -=  np.pi*0.18
     rollout[1, int(k()*gap):]  +=  np.pi*0.0
     rollout[6, int(k()*gap):]  +=  np.pi*0.4
     rollout[7, int(k()*gap):]  +=  np.pi*0.3
@@ -81,10 +56,7 @@ if __name__ == "__main__":
         
         # do the movement
         state, r, done, info_ = env.step(action)
-    
-        if len(info_["contacts"]) > 0:
-            print(info_["contacts"])
-        
+
         time.sleep(1/200)
 
     
