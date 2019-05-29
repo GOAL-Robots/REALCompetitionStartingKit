@@ -81,6 +81,11 @@ for t in range(10):
 ```
 The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positions in radiants.
 
+
+<TABLE " width="100%" BORDER="0">
+<TR>
+<TD>
+       
 | index |  joint name               |
 | ----- | ------------------------- |
 |  0    |  lbr_iiwa_joint_1         |
@@ -92,6 +97,13 @@ The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positi
 |  6    |  lbr_iiwa_joint_7         |
 |  7    |  base_to_finger0_joint    |
 |  8    |  finger0_to_finger1_joint |
+
+</TD>
+<TD><img src="docs/figs/kuka_full_joints.png" alt="demo1" width="100%"></TD>
+<TD><img src="docs/figs/kuka_gripper_joints.png" alt="demo1" width="100%"></TD>
+</TR>
+</TABLE>
+
 
       
 
