@@ -100,8 +100,8 @@ The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positi
 |  8    |  finger0_to_finger1_joint |
 
 </TD>
-<TD><img src="docs/figs/kuka_full_joints.png" alt="demo1" width="100%"></TD>
-<TD><img src="docs/figs/kuka_gripper_joints.png" alt="demo1" width="100%"></TD>
+<TD><img src="docs/figs/kuka_full_joints.png" alt="kuka_full_joints" width="80%"></TD>
+<TD><img src="docs/figs/kuka_gripper_joints.png" alt="kuka_gripper_joints" width="80%"></TD>
 </TR>
 </TABLE>
 
