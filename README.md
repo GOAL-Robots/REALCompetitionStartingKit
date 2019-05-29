@@ -79,7 +79,10 @@ for t in range(10):
     observation, reward, done, _ = env.step(action)
 
 ```
-#### Actions
+It includes a 7DoF kuka arm with a 2Dof gripper, a table with 3 objects on it and a camera looking at the table from the top. 
+The gripper has four touch sensors on the inner part of its links.
+
+#### Action
 The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positions in radiants.
 
 
@@ -105,20 +108,48 @@ The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positi
 </TR>
 </TABLE>
 
+#### Observation
+The ```observation``` object returned by```env.step``` is a dictionary:
+* observation["joint_positions"] is a vector containing the current angles of the 9 joints
+* observation["touch_sensors"] is a vector containing the current touch intensity at the four touch sensors (see figure below)
+* observation["retina"] is a 320x240x3 array with the current top camera image
+* observation["goal"] is a 320x240x3 array with the target top camera state (all zeros except for the extrinsic phase, see below the task description)
 
-      
+#### Reward
+
+The ```reward```  value returned by```env.step``` is always put to 0.
+
+<TABLE " width="100%" BORDER="0">
+<TR>
+</TD>
+<TD><img src="docs/figs/kuka_gripper_sensors.png" alt="kuka_sensors" width="40%"></TD>
+</TR>
+</TABLE>
+For each sensor intensity is defined as the maximum force that was exerted on it at the current timestep.
+
+#### Done
+
+The ```done```  value returned by```env.step``` is  set to ```True``` only when a phase is concluded (see below - intrinsic and extrinsic phases) 
 
 
-Using the env:
+### Task
+
+A complete simulation is made of two phases:
+* ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment
+* ***Extrinsic phase***: divided in trials. A each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached.
+
+The code below runs the entire simulation. The participants are supposed to substitute the FakePolicy object with their own controller object.
 
 ```python
-        from OpenGL import GLU
-import numpy as np
-        import realcomp
-from realcomp.envs.realcomp_env import Goal
-        import gym
 
-class RandomPolicy:
+from OpenGL import GLU
+import numpy as np
+
+import gym
+import realcomp
+from realcomp.envs.realcomp_env import Goal
+
+class FakePolicy:
     """
     A fake controller chosing random actions
     """
@@ -130,11 +161,11 @@ class RandomPolicy:
         self.action += 0.1*np.pi*np.random.randn(self.action_space.shape[0])
         return self.action
 
-Controller = RandomPolicy
+Controller = FakePolicy
 
 def demo_run(extrinsic_trials=10):
         
-            env = gym.make('REALComp-v0')
+    env = gym.make('REALComp-v0')
     controller = Controller(env.action_space)
             
     # render simulation on screen
@@ -149,7 +180,7 @@ def demo_run(extrinsic_trials=10):
     print("Starting intrinsic phase...")
     while not done:
         
-                # Call your controller to chose action 
+        # Call your controller to chose action 
         action = controller.step(observation, reward, done)
                 
                 # do action
