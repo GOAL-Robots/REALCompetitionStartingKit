@@ -160,4 +160,4 @@ A complete simulation is made of two phases:
 * ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment. This phase will last 10 million timesteps.
 * ***Extrinsic phase***: divided in trials. On each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached within 1000 timesteps.
 
-[realcomp/examples/demo.py](realcomp/examples/demo.py)  runs the entire simulation. The participants are supposed to substitute the MyController object in  [realcomp/examples/my_controller.py](realcomp/examples/my_controller.py)  with their own controller object.
+[realcomp/examples/demo.py](realcomp/task/demo.py)  runs the entire simulation. The participants are supposed to substitute the MyController object in  [realcomp/task/my_controller.py](realcomp/examples/my_controller.py)  with their own controller object.
