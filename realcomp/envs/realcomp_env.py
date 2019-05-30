@@ -5,7 +5,8 @@ import pybullet
 import gym 
 from .realcomp_robot import Kuka 
 
-import sys
+
+import sys, os
 
 #import kukacomp.data as data
 #bullet_client.setAdditionalSearchPath(dataObsSpaces.getDataPath())
@@ -73,7 +74,11 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
     def set_goal(self):
         if self.goals is None:
-            self.goals = np.load("goals_dataset.npy")
+            self.goals = np.load(
+                    os.path.join( 
+                        os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
+                        "task",
+                        "goals_dataset.npy"))
             self.goal_idx = 0
         goal = self.goals[self.goal_idx]
         self.goal_idx += 1
