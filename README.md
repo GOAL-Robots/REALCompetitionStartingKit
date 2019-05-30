@@ -10,7 +10,8 @@ Tested on Ubuntu (>= Ubuntu 16.04)
 </TABLE>
 
 ### Install
-cd path/to/realcomp 
+
+The installation requires Python 3.5+.
 
 #### Linux
 
@@ -18,7 +19,7 @@ To install the REAL Competition Starting Kit on linux
 
 1) install gym and pybullet packages:
 
-       pip install gym pybullet
+       pip install gym pybullet pyopengl
 
 2) download the REALCompetitionStartingKit repo:
 
@@ -48,7 +49,7 @@ To install the REAL Competition Starting Kit on windows in the anaconda envirome
 
 3) install gym and pybullet packages:
 
-       pip install gym pybullet
+       pip install gym pybullet pyopengl
 
 4) download the REALCompetitionStartingKit repo:
 
@@ -63,10 +64,9 @@ To install the REAL Competition Starting Kit on windows in the anaconda envirome
 
 ### Basic usage
 
-The environment is a standard gym environment and can be called alone as shownd here:
+The environment is a standard gym environment and can be called alone as shown here:
 
 ```python
-
 env = gym.make('REALComp-v0')
 
 observation = env.reset()  
@@ -76,14 +76,36 @@ for t in range(10):
     action = controller.step(observation, reward, done)
     
     # do action
-    observation, reward, done, _ = env.step(action)
-
+    observation, reward, done, _ = env.step(action)   
 ```
+    
+where the controller is any object with a step() attribute returning an action vector.
+A  exammple type of the controller is given by this simple class:
+
+```python
+class FakePolicy:
+    """
+    A fake controller chosing random actions
+    """
+    def __init__(self, action_space):
+        self.action_space = action_space
+        self.action = np.zeros(action_space.shape[0])
+
+    def step(self, observation, reward, done):
+        """
+        Returns a vector of random values
+        """
+        self.action += 0.1*np.pi*np.random.randn(self.action_space.shape[0])
+        return self.action
+```
+
 It includes a 7DoF kuka arm with a 2Dof gripper, a table with 3 objects on it and a camera looking at the table from the top. 
 The gripper has four touch sensors on the inner part of its links.
 
 #### Action
 The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positions in radiants.
+The first 7 joints have a range between -Pi/2 and +Pi/2.
+The two gripper joints have a range between 0 and +Pi/2. They are also coupled so that the second joint will be at most twice the angle of the first one.
 
 
 <TABLE " width="100%" BORDER="0">
@@ -112,12 +134,8 @@ The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positi
 The ```observation``` object returned by```env.step``` is a dictionary:
 * observation["joint_positions"] is a vector containing the current angles of the 9 joints
 * observation["touch_sensors"] is a vector containing the current touch intensity at the four touch sensors (see figure below)
-* observation["retina"] is a 320x240x3 array with the current top camera image
-* observation["goal"] is a 320x240x3 array with the target top camera state (all zeros except for the extrinsic phase, see below the task description)
-
-#### Reward
-
-The ```reward```  value returned by```env.step``` is always put to 0.
+* observation["retina"] is a 240x320x3 array with the current top camera image
+* observation["goal"] is a 240x320x3 array with the target top camera image (all zeros except for the extrinsic phase, see below the task description)
 
 <TABLE " width="100%" BORDER="0">
 <TR>
@@ -125,7 +143,11 @@ The ```reward```  value returned by```env.step``` is always put to 0.
 <TD><img src="docs/figs/kuka_gripper_sensors.png" alt="kuka_sensors" width="40%"></TD>
 </TR>
 </TABLE>
-For each sensor intensity is defined as the maximum force that was exerted on it at the current timestep.
+For each sensor, intensity is defined as the maximum force that was exerted on it at the current timestep.
+
+#### Reward
+
+The ```reward```  value returned by```env.step``` is always put to 0.
 
 #### Done
 
@@ -135,91 +157,7 @@ The ```done```  value returned by```env.step``` is  set to ```True``` only when 
 ### Task
 
 A complete simulation is made of two phases:
-* ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment
-* ***Extrinsic phase***: divided in trials. A each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached.
+* ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment. This phase will last 10 million timesteps.
+* ***Extrinsic phase***: divided in trials. On each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached within 1000 timesteps.
 
-The code below runs the entire simulation. The participants are supposed to substitute the FakePolicy object with their own controller object.
-
-```python
-
-from OpenGL import GLU
-import numpy as np
-
-import gym
-import realcomp
-from realcomp.envs.realcomp_env import Goal
-
-class FakePolicy:
-    """
-    A fake controller chosing random actions
-    """
-    def __init__(self, action_space):
-        self.action_space = action_space
-        self.action = np.zeros(action_space.shape[0])
-
-    def step(self, observation, reward, done):
-        self.action += 0.1*np.pi*np.random.randn(self.action_space.shape[0])
-        return self.action
-
-Controller = FakePolicy
-
-def demo_run(extrinsic_trials=10):
-        
-    env = gym.make('REALComp-v0')
-    controller = Controller(env.action_space)
-            
-    # render simulation on screen
-    # env.render('human')
-    
-    # reset simulation
-            observation = env.reset()  
-    reward = 0 
-    done = False
-    
-    # intrinsic phase
-    print("Starting intrinsic phase...")
-    while not done:
-        
-        # Call your controller to chose action 
-        action = controller.step(observation, reward, done)
-                
-                # do action
-        observation, reward, done, _ = env.step(action)
-                
-        # get frames for video making
-        # rgb_array = env.render('rgb_array')
-        
-    # extrinsic phase
-    print("Starting extrinsic phase...")
-    for k in range(extrinsic_trials):
-        
-        # reset simulation
-        observation = env.reset()  
-        reward = 0 
-        done = False    
-        
-        # set the extrinsic goal to pursue 
-        env.set_goal()
-        print("Starting extrinsic trial...")
-
-        while not done:
-
-            # Call your controller to chose action 
-            action = controller.step(observation, reward, done)
-            
-            # do action
-            observation, reward, done, _ = env.step(action)
-            
-            # get frames for video making
-            # rgb_array = env.render('rgb_array')
-                             
-        if __name__=="__main__":
-            demo_run()
-
-```
-
-### Submission
-
-### Evaluation
-
-### Rules
+[realcomp/examples/demo.py](realcomp/task/demo.py)  runs the entire simulation. The participants are supposed to substitute the MyController object in  [realcomp/task/my_controller.py](realcomp/examples/my_controller.py)  with their own controller object.
