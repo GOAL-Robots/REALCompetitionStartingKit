@@ -85,6 +85,8 @@ The gripper has four touch sensors on the inner part of its links.
 
 #### Action
 The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positions in radiants.
+The first 7 joints have a range between -Pi/2 and +Pi/2.
+The two gripper joints have a range between 0 and +Pi/2. They are also coupled so that the second joint will be at most twice the angle of the first one.
 
 
 <TABLE " width="100%" BORDER="0">
@@ -113,8 +115,8 @@ The ```action```attribute  of ```env.step``` must be a  vector of 9 joint positi
 The ```observation``` object returned by```env.step``` is a dictionary:
 * observation["joint_positions"] is a vector containing the current angles of the 9 joints
 * observation["touch_sensors"] is a vector containing the current touch intensity at the four touch sensors (see figure below)
-* observation["retina"] is a 320x240x3 array with the current top camera image
-* observation["goal"] is a 320x240x3 array with the target top camera image (all zeros except for the extrinsic phase, see below the task description)
+* observation["retina"] is a 240x320x3 array with the current top camera image
+* observation["goal"] is a 240x320x3 array with the target top camera image (all zeros except for the extrinsic phase, see below the task description)
 
 <TABLE " width="100%" BORDER="0">
 <TR>
