@@ -252,7 +252,7 @@ class EyeCamera:
                 renderer=pybullet.ER_BULLET_HARDWARE_OPENGL
                 )
 
-        rgb_array = np.array(px)
+        rgb_array = np.array(px).reshape(self.render_height, self.render_width, 4)
         rgb_array = rgb_array[:, :, :3]
 
         return rgb_array
@@ -283,7 +283,7 @@ class EyeCamera:
                 renderer=pybullet.ER_BULLET_HARDWARE_OPENGL
                 )
 
-        rgb_array = np.array(px)
+        rgb_array = np.array(px).reshape(self.render_height, self.render_width, 4)
         rgb_array = rgb_array[:, :, :3]
 
         return rgb_array
