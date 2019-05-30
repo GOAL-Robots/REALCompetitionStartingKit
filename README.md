@@ -67,7 +67,6 @@ To install the REAL Competition Starting Kit on windows in the anaconda envirome
 The environment is a standard gym environment and can be called alone as shown here:
 
 ```python
-
 env = gym.make('REALComp-v0')
 
 observation = env.reset()  
@@ -77,9 +76,29 @@ for t in range(10):
     action = controller.step(observation, reward, done)
     
     # do action
-    observation, reward, done, _ = env.step(action)
-
+    observation, reward, done, _ = env.step(action)   
 ```
+    
+where the controller is any object with a step() attribute returning an action vector.
+A  exammple type of the controller is given by this simple class:
+
+```python
+class FakePolicy:
+    """
+    A fake controller chosing random actions
+    """
+    def __init__(self, action_space):
+        self.action_space = action_space
+        self.action = np.zeros(action_space.shape[0])
+
+    def step(self, observation, reward, done):
+        """
+        Returns a vector of random values
+        """
+        self.action += 0.1*np.pi*np.random.randn(self.action_space.shape[0])
+        return self.action
+```
+
 It includes a 7DoF kuka arm with a 2Dof gripper, a table with 3 objects on it and a camera looking at the table from the top. 
 The gripper has four touch sensors on the inner part of its links.
 
@@ -141,88 +160,4 @@ A complete simulation is made of two phases:
 * ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment. This phase will last 10 million timesteps.
 * ***Extrinsic phase***: divided in trials. On each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached within 1000 timesteps.
 
-The code below runs the entire simulation. The participants are supposed to substitute the FakePolicy object with their own controller object.
-
-```python
-
-from OpenGL import GLU
-import numpy as np
-
-import gym
-import realcomp
-from realcomp.envs.realcomp_env import Goal
-
-class FakePolicy:
-    """
-    A fake controller chosing random actions
-    """
-    def __init__(self, action_space):
-        self.action_space = action_space
-        self.action = np.zeros(action_space.shape[0])
-
-    def step(self, observation, reward, done):
-        self.action += 0.1*np.pi*np.random.randn(self.action_space.shape[0])
-        return self.action
-
-Controller = FakePolicy
-
-def demo_run(extrinsic_trials=10):
-        
-    env = gym.make('REALComp-v0')
-    controller = Controller(env.action_space)
-            
-    # render simulation on screen
-    # env.render('human')
-    
-    # reset simulation
-    observation = env.reset()
-    reward = 0 
-    done = False
-    
-    # intrinsic phase
-    print("Starting intrinsic phase...")
-    while not done:
-        
-        # Call your controller to chose action 
-        action = controller.step(observation, reward, done)
-                
-                # do action
-        observation, reward, done, _ = env.step(action)
-                
-        # get frames for video making
-        # rgb_array = env.render('rgb_array')
-        
-    # extrinsic phase
-    print("Starting extrinsic phase...")
-    for k in range(extrinsic_trials):
-        
-        # reset simulation
-        observation = env.reset()  
-        reward = 0 
-        done = False    
-        
-        # set the extrinsic goal to pursue 
-        env.set_goal()
-        print("Starting extrinsic trial...")
-
-        while not done:
-
-            # Call your controller to chose action 
-            action = controller.step(observation, reward, done)
-            
-            # do action
-            observation, reward, done, _ = env.step(action)
-            
-            # get frames for video making
-            # rgb_array = env.render('rgb_array')
-                             
-    if __name__=="__main__":
-        demo_run()
-
-```
-
-### Submission
-
-### Evaluation
-
-### Rules
+[realcomp/examples/demo.py](realcomp/examples/demo.py)  runs the entire simulation. The participants are supposed to substitute the MyController object in  [realcomp/examples/my_controller.py](realcomp/examples/my_controller.py)  with their own controller object.
