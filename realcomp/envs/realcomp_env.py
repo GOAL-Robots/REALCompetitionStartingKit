@@ -78,7 +78,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
                     os.path.join( 
                         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
                         "task",
-                        "goals_dataset.npy"))
+                        "goals_dataset.npy"), allow_pickle=True)
             self.goal_idx = 0
         goal = self.goals[self.goal_idx]
         self.goal_idx += 1
