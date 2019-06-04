@@ -23,8 +23,8 @@ class Goal:
 
 class REALCompEnv(MJCFBaseBulletEnv):
     
-    intrinsic_timesteps = 50 # int(1e7)
-    extrinsic_timesteps = 50 # int(1e3)
+    intrinsic_timesteps = int(1e7)
+    extrinsic_timesteps = int(1e3)
     
     def __init__(self, render=False):
 
