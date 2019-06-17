@@ -112,6 +112,15 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
             rgb_array = self.envCamera.render(self._p)
             return rgb_array
+
+    def get_part_pos(self, name):
+        return self.robot.object_bodies[name].get_position()
+    
+    def get_obj_pos(self, name):
+        return self.robot.object_bodies[name].get_position()
+
+    def get_contacts(self):
+        return self.robot.get_contacts()
     
     def get_retina(self):
         '''
