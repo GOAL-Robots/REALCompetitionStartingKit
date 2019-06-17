@@ -23,8 +23,8 @@ class Goal:
 
 class REALCompEnv(MJCFBaseBulletEnv):
     
-    intrinsic_timesteps = 50 # int(1e7)
-    extrinsic_timesteps = 50 # int(1e3)
+    intrinsic_timesteps = int(1e7)
+    extrinsic_timesteps = int(1e3)
     
     def __init__(self, render=False):
 
@@ -78,7 +78,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
                     os.path.join( 
                         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
                         "task",
-                        "goals_dataset.npy"))
+                        "goals_dataset.npy"), allow_pickle=True)
             self.goal_idx = 0
         goal = self.goals[self.goal_idx]
         self.goal_idx += 1
@@ -217,7 +217,7 @@ class EnvCamera:
                 renderer=pybullet.ER_BULLET_HARDWARE_OPENGL
                 )
 
-        rgb_array = np.array(px)
+        rgb_array = np.array(px).reshape(self.render_height, self.render_width, 4)
         rgb_array = rgb_array[:, :, :3]
 
         return rgb_array
