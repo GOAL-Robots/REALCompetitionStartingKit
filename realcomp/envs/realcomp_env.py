@@ -114,7 +114,8 @@ class REALCompEnv(MJCFBaseBulletEnv):
             return rgb_array
 
     def get_part_pos(self, name):
-        return self.robot.object_bodies[name].get_position()
+        print(self.robot.parts.keys())
+        return self.robot.parts[name].get_position()
     
     def get_obj_pos(self, name):
         return self.robot.object_bodies[name].get_position()
