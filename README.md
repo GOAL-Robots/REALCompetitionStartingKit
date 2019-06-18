@@ -153,6 +153,9 @@ The ```reward```  value returned by```env.step``` is always put to 0.
 
 The ```done```  value returned by```env.step``` is  set to ```True``` only when a phase is concluded (see below - intrinsic and extrinsic phases) 
 
+### Sandbox
+
+The environment can be also used in a sandbox. In realcomp_env specs you find an explanation of methods needed to read the objects, links, contacts, and other stuff.
 
 ### Task
 
