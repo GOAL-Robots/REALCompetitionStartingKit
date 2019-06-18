@@ -65,12 +65,11 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 width=self._render_width,
                 height=self._render_height)
     
-    def set_eye(self, name):
+    def set_eye(self, name, eye_pos=[0.01, 0, 1.2], target_pos=[0, 0, 0]):
         ''' Initialize an eye camera
         @name the label of the created eye camera
         '''
-        pos = [0.01, 0, 1.2]
-        cam = EyeCamera(pos, [0, 0, 0])
+        cam = EyeCamera(eye_pos, target_pos)
         self.eyes[name] = cam
 
     def set_goal(self):
