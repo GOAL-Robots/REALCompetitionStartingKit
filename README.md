@@ -155,7 +155,7 @@ The ```done```  value returned by```env.step``` is  set to ```True``` only when 
 
 ### Sandbox
 
-The environment can be also used in a sandbox. In realcomp_env specs you find an explanation of methods needed to read the objects, links, contacts, and other stuff.
+The environment can be also used in a sandbox. In [realcomp_env specs](docs/REALCOMP_ENV_SPECS.md) you find an explanation of methods needed to read the objects, links, contacts, and other stuff.
 
 ### Task
 
