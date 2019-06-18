@@ -4,12 +4,11 @@ import numpy as np
 import pybullet
 import gym 
 from .realcomp_robot import Kuka 
-
-
 import sys, os
 
-#import kukacomp.data as data
-#bullet_client.setAdditionalSearchPath(dataObsSpaces.getDataPath())
+"""
+Realcomp
+"""
 
 def DefaultRewardFunc(observation):
     return 0
@@ -22,7 +21,10 @@ class Goal:
         self.retina = retina
 
 class REALCompEnv(MJCFBaseBulletEnv):
-    
+    """ Create a REALCompetion environment inheriting by gym.env
+
+    """
+
     intrinsic_timesteps = int(1e7)
     extrinsic_timesteps = int(1e3)
     
@@ -52,8 +54,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self.goal_idx = -1
    
     def setCamera(self):
-        '''
-        initialize environment camera
+        ''' Initialize environment camera
         '''
         self.envCamera = EnvCamera(
                 distance=self._cam_dist, 
@@ -65,8 +66,8 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 height=self._render_height)
     
     def set_eye(self, name):
-        '''
-        initialize eye
+        ''' Initialize an eye camera
+        @name the label of the created eye camera
         '''
         pos = [0.01, 0, 1.2]
         cam = EyeCamera(pos, [0, 0, 0])
@@ -179,6 +180,12 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self.timestep += 1
 
         return observation, reward, done, info
+
+class REALCompEnvSingleObj(MJCFBaseBulletEnv):
+    def __init__(self, render=False):
+        super(REALCompEnvSingleObj, self).__init__(render)
+        self.robot.used_objects = ["table", "orange"]
+
 
 class EnvCamera:
 
