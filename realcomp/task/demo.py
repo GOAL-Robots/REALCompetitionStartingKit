@@ -13,13 +13,13 @@ from my_controller import MyController
 
 Controller = MyController
 
-def demo_run(extrinsic_trials=10):
+def demo_run(extrinsic_trials=30):
 
     env = gym.make('REALComp-v0')
     controller = Controller(env.action_space)
     
     # change length of simulation for testing purposes
-    env.intrinsic_timesteps = 5000 #default = 1e7
+    env.intrinsic_timesteps = 10000 #default = 1e7
     env.extrinsic_timesteps = 1000 #default = 1e3
 
     # render simulation on screen
@@ -39,12 +39,16 @@ def demo_run(extrinsic_trials=10):
         
         # do action
         observation, reward, done, _ = env.step(action)
-        
+
         # get frames for video making
         # rgb_array = env.render('rgb_array')
+
         
+    action = controller.step(observation, reward, done)
+
     # extrinsic phase
     print("Starting extrinsic phase...")
+    totalScore = 0
     for k in range(extrinsic_trials):
         
         # reset simulation
@@ -66,6 +70,14 @@ def demo_run(extrinsic_trials=10):
             
             # get frames for video making
             # rgb_array = env.render('rgb_array')
+
+        action = controller.step(observation, reward, done)
+
+        score = env.evaluateGoal() / extrinsic_trials
+        print("Score for Goal {} was {}".format(k, score))
+        totalScore += score
+
+    print("Final score was: {}".format(totalScore))
 
 if __name__=="__main__":
     demo_run()
