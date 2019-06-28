@@ -94,6 +94,12 @@ class REALCompEnv(MJCFBaseBulletEnv):
         value = w * ((np.linalg.norm(p_goal-p) / p_max)**2.0) + (1-w) * ((np.linalg.norm(a_goal-a) / a_max)**2.0)
         return value
 
+
+    def normalizeScore(self, score):
+        random_score = 0.5 #Average score of random controllers
+        normalized_score = (1 - (score - random_score)) / (1 + random_score)
+        return normalized_score * 1000
+
     def evaluateGoal(self):
         if self.goal.final_state is None:
             print("No final state?")
@@ -108,7 +114,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
             a = np.zeros(3) #TODO np.array(current_state[obj].get_position[3:])
             a_goal = np.array(final_state[obj][3:])
             score += self.extrinsicFormula(p_goal, p, a_goal, a)
-        return score
+        return normalizeScore(score)
 
         
     def create_single_player_scene(self, bullet_client):

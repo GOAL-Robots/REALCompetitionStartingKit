@@ -74,10 +74,12 @@ def demo_run(extrinsic_trials=30):
         action = controller.step(observation, reward, done)
 
         score = env.evaluateGoal() / extrinsic_trials
-        print("Score for Goal {} was {}".format(k, score))
         totalScore += score
+        print("Score for Goal {}/{} was {} - Current score: {}".format(k, extrinsic_trials, score, totalScore))
+        
 
     print("Final score was: {}".format(totalScore))
+    return totalScore
 
 if __name__=="__main__":
     demo_run()
