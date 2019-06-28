@@ -4,12 +4,11 @@ import numpy as np
 import pybullet
 import gym 
 from .realcomp_robot import Kuka 
-
-
 import sys, os
 
-#import kukacomp.data as data
-#bullet_client.setAdditionalSearchPath(dataObsSpaces.getDataPath())
+"""
+Realcomp
+"""
 
 def DefaultRewardFunc(observation):
     return 0
@@ -22,9 +21,12 @@ class Goal:
         self.retina = retina
 
 class REALCompEnv(MJCFBaseBulletEnv):
-    
-    intrinsic_timesteps = 50 # int(1e7)
-    extrinsic_timesteps = 50 # int(1e3)
+    """ Create a REALCompetion environment inheriting by gym.env
+
+    """
+
+    intrinsic_timesteps = int(1e7)
+    extrinsic_timesteps = int(1e3)
     
     def __init__(self, render=False):
 
@@ -52,8 +54,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
         self.goal_idx = -1
    
     def setCamera(self):
-        '''
-        initialize environment camera
+        ''' Initialize environment camera
         '''
         self.envCamera = EnvCamera(
                 distance=self._cam_dist, 
@@ -64,12 +65,11 @@ class REALCompEnv(MJCFBaseBulletEnv):
                 width=self._render_width,
                 height=self._render_height)
     
-    def set_eye(self, name):
+    def set_eye(self, name, eye_pos=[0.01, 0, 1.2], target_pos=[0, 0, 0]):
+        ''' Initialize an eye camera
+        @name the label of the created eye camera
         '''
-        initialize eye
-        '''
-        pos = [0.01, 0, 1.2]
-        cam = EyeCamera(pos, [0, 0, 0])
+        cam = EyeCamera(eye_pos, target_pos)
         self.eyes[name] = cam
 
     def set_goal(self):
@@ -78,7 +78,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
                     os.path.join( 
                         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
                         "task",
-                        "goals_dataset.npy"))
+                        "goals_dataset.npy"), allow_pickle=True)
             self.goal_idx = 0
         goal = self.goals[self.goal_idx]
         self.goal_idx += 1
@@ -112,6 +112,16 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
             rgb_array = self.envCamera.render(self._p)
             return rgb_array
+
+    def get_part_pos(self, name):
+        print(self.robot.parts.keys())
+        return self.robot.parts[name].get_position()
+    
+    def get_obj_pos(self, name):
+        return self.robot.object_bodies[name].get_position()
+
+    def get_contacts(self):
+        return self.robot.get_contacts()
     
     def get_retina(self):
         '''
@@ -170,6 +180,12 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
         return observation, reward, done, info
 
+class REALCompEnvSingleObj(MJCFBaseBulletEnv):
+    def __init__(self, render=False):
+        super(REALCompEnvSingleObj, self).__init__(render)
+        self.robot.used_objects = ["table", "orange"]
+
+
 class EnvCamera:
 
     def __init__(self, distance, yaw, pitch, roll, pos, 
@@ -208,7 +224,7 @@ class EnvCamera:
                 renderer=pybullet.ER_BULLET_HARDWARE_OPENGL
                 )
 
-        rgb_array = np.array(px)
+        rgb_array = np.array(px).reshape(self.render_height, self.render_width, 4)
         rgb_array = rgb_array[:, :, :3]
 
         return rgb_array

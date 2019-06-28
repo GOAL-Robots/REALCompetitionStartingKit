@@ -18,6 +18,9 @@ def demo_run(extrinsic_trials=10):
     env = gym.make('REALComp-v0')
     controller = Controller(env.action_space)
     
+    env.intrinsic_timesteps = 2000
+    env.extrinsic_timesteps = 10
+
     # render simulation on screen
     # env.render('human')
     

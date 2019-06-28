@@ -153,6 +153,9 @@ The ```reward```  value returned by```env.step``` is always put to 0.
 
 The ```done```  value returned by```env.step``` is  set to ```True``` only when a phase is concluded (see below - intrinsic and extrinsic phases) 
 
+### Sandbox
+
+The environment can be also used in a sandbox. In [realcomp_env specs](docs/REALCOMP_ENV_SPECS.md) you find an explanation of methods needed to read the objects, links, contacts, and other stuff.
 
 ### Task
 
@@ -160,4 +163,4 @@ A complete simulation is made of two phases:
 * ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment. This phase will last 10 million timesteps.
 * ***Extrinsic phase***: divided in trials. On each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached within 1000 timesteps.
 
-[realcomp/examples/demo.py](realcomp/task/demo.py)  runs the entire simulation. The participants are supposed to substitute the MyController object in  [realcomp/task/my_controller.py](realcomp/examples/my_controller.py)  with their own controller object.
+[realcomp/task/demo.py](realcomp/task/demo.py)  runs the entire simulation. The participants are supposed to substitute the MyController object in  [realcomp/task/my_controller.py](realcomp/task/my_controller.py)  with their own controller object.
