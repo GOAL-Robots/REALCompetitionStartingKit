@@ -14,8 +14,8 @@ def DefaultRewardFunc(observation):
     return 0
 
 class Goal:
-    def __init__(self, initial_state=[0, 0, 0], 
-            final_state=[0, 0, 0], retina=None):
+    def __init__(self, initial_state=None,
+            final_state=None, retina=None):
         self.initial_state = initial_state
         self.final_state = final_state
         self.retina = retina
@@ -80,8 +80,43 @@ class REALCompEnv(MJCFBaseBulletEnv):
                         "task",
                         "goals_dataset.npy"), allow_pickle=True)
             self.goal_idx = 0
-        goal = self.goals[self.goal_idx]
+        self.goal = self.goals[self.goal_idx]
+        
+        for obj in self.goal.initial_state.keys():
+            self.robot.object_bodies[obj].reset_position(self.goal.initial_state[obj][:3])
+
         self.goal_idx += 1
+
+    def extrinsicFormula(self, p_goal, p, a_goal, a):
+        w = 1 #w = 1 -> Ignore orientation
+        p_max = 1 #TODO
+        a_max = 1 #TODO
+        value = w * ((np.linalg.norm(p_goal-p) / p_max)**2.0) + (1-w) * ((np.linalg.norm(a_goal-a) / a_max)**2.0)
+        return value
+
+
+    def normalizeScore(self, score):
+        score = min(1, score) #Cut away scores worse than 1 (extremely bad outliers)
+        random_score = 0.5 #Average score of random controller
+        normalized_score = - (score - random_score) / random_score
+        return normalized_score * 1000
+
+    def evaluateGoal(self):
+        if self.goal.final_state is None:
+            print("No final state?")
+            return 0
+        initial_state = self.goal.initial_state
+        final_state = self.goal.final_state
+        current_state = self.robot.object_bodies
+        score = 0
+        for obj in final_state.keys():
+            p = np.array(current_state[obj].get_position())
+            p_goal = np.array(final_state[obj][:3])
+            a = np.zeros(3) #TODO np.array(current_state[obj].get_position[3:])
+            a_goal = np.array(final_state[obj][3:])
+            score += self.extrinsicFormula(p_goal, p, a_goal, a)
+        print("Raw score: {}".format(score))
+        return self.normalizeScore(score)
 
         
     def create_single_player_scene(self, bullet_client):
