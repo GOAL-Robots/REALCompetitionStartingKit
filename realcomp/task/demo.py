@@ -43,9 +43,6 @@ def demo_run(extrinsic_trials=30):
         # get frames for video making
         # rgb_array = env.render('rgb_array')
 
-        
-    action = controller.step(observation, reward, done)
-
     # extrinsic phase
     print("Starting extrinsic phase...")
     totalScore = 0
@@ -70,8 +67,6 @@ def demo_run(extrinsic_trials=30):
             
             # get frames for video making
             # rgb_array = env.render('rgb_array')
-
-        action = controller.step(observation, reward, done)
 
         score = env.evaluateGoal() / extrinsic_trials
         totalScore += score
