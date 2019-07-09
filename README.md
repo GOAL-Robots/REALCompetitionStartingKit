@@ -14,7 +14,7 @@ This repository provides the "Starting Kit" to partecipate in [NeurIPS 2019 - Ro
 - [Installation](#install)
 - [Basic usage](#usage)
 - [Sandbox](#sandbox)
-- [Task](#task)
+- [Competition Task](#task)
 
 
 <a name="install"/>
@@ -175,8 +175,8 @@ Using those methods in the final version of your controller is not permitted, bu
 
 <a name="task"/>
 
-### Task
-A complete simulation is made of two phases:
+### Competition Task
+A complete simulation for the REAL Competition is made of two phases:
 * ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment. This phase will last 10 million timesteps.
 * ***Extrinsic phase***: divided in trials. On each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached within 1000 timesteps.
 
