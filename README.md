@@ -1,5 +1,4 @@
 # REALCompetitionStartingKit
-Tested on Ubuntu (>= Ubuntu 16.04)
 
 <TABLE " width="100%" BORDER="0">
 <TR>
@@ -9,9 +8,21 @@ Tested on Ubuntu (>= Ubuntu 16.04)
 </TR>
 </TABLE>
 
+This repository provides the "Starting Kit" to partecipate in [NeurIPS 2019 - Robot open-Ended Autonomous Learning competition](https://www.aicrowd.com/challenges/neurips-2019-robot-open-ended-autonomous-learning).
+
+## Table of Contents
+- [Installation](#install)
+- [Basic usage](#usage)
+- [Sandbox](#sandbox)
+- [Task](#task)
+
+
+<a name="install"/>
+
 ### Install
 
 The installation requires Python 3.5+.
+The Starting Kit was tested on Ubuntu (>= Ubuntu 16.04) but it can be also run on other operating systems.
 
 #### Linux
 
@@ -61,7 +72,7 @@ To install the REAL Competition Starting Kit on windows in the anaconda envirome
        pip install -e .
 
 
-
+<a name="usage"/>
 ### Basic usage
 
 The environment is a standard gym environment and can be called alone as shown here:
@@ -153,14 +164,19 @@ The ```reward```  value returned by```env.step``` is always put to 0.
 
 The ```done```  value returned by```env.step``` is  set to ```True``` only when a phase is concluded (see below - intrinsic and extrinsic phases) 
 
+<a name="sandbox"/>
 ### Sandbox
 
 The environment can be also used in a sandbox. In [realcomp_env specs](docs/REALCOMP_ENV_SPECS.md) you find an explanation of methods needed to read the objects, links, contacts, and other stuff.
+Using those methods in the final version of your controller is not permitted, but it might be useful while testing.
 
+
+<a name="task"/>
 ### Task
-
 A complete simulation is made of two phases:
 * ***Intrinsic phase***: No goal is given and the controller can do whatever it needs to explore and learn something from the environment. This phase will last 10 million timesteps.
 * ***Extrinsic phase***: divided in trials. On each trial a goal is given and the controller must chose the actions that modify the environment so that the state corresponding to the goal is reached within 1000 timesteps.
 
 [realcomp/task/demo.py](realcomp/task/demo.py)  runs the entire simulation. The participants are supposed to substitute the MyController object in  [realcomp/task/my_controller.py](realcomp/task/my_controller.py)  with their own controller object.
+
+Running demo.py also returns an extrinsic score for local evaluation.
