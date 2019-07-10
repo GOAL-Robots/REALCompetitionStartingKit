@@ -102,7 +102,7 @@ class Kuka(URDFBasedRobot):
                     force = np.max([cnt[1] for cnt in cnts])
                     sensors[i] = force
                 
-            return sensors 
+        return sensors 
 
     def robot_specific_reset(self, bullet_client):
 
