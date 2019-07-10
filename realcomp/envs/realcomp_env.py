@@ -155,6 +155,9 @@ class REALCompEnv(MJCFBaseBulletEnv):
     def get_obj_pos(self, name):
         return self.robot.object_bodies[name].get_position()
 
+    def get_obj_pose(self, name):
+        return self.robot.object_bodies[name].get_pose()
+
     def get_contacts(self):
         return self.robot.get_contacts()
     
