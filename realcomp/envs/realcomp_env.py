@@ -15,10 +15,12 @@ def DefaultRewardFunc(observation):
 
 class Goal:
     def __init__(self, initial_state=None,
-            final_state=None, retina=None):
+            final_state=None, retina=None, retina_before = None, challenge = None):
         self.initial_state = initial_state
         self.final_state = final_state
         self.retina = retina
+        self.retina_before = retina_before
+        self.challenge = challenge
 
 class REALCompEnv(MJCFBaseBulletEnv):
     """ Create a REALCompetion environment inheriting by gym.env
@@ -26,7 +28,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
     """
 
     intrinsic_timesteps = int(1e7)
-    extrinsic_timesteps = int(1e3)
+    extrinsic_timesteps = int(2e3)
     
     def __init__(self, render=False):
 
@@ -45,7 +47,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
         self.reward_func = DefaultRewardFunc
         
-        self.robot.used_objects = ["table", "tomato", "mustard", "orange"]
+        self.robot.used_objects = ["table", "tomato", "mustard", "cube"]
         self.set_eye("eye")
 
         self.goal = Goal(retina=self.observation_space.spaces[
@@ -78,7 +80,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
                     os.path.join( 
                         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
                         "task",
-                        "goals_dataset.npy"), allow_pickle=True)
+                        "goals_dataset.npy.npz"), allow_pickle=True).items()[0][1]
             self.goal_idx = 0
         self.goal = self.goals[self.goal_idx]
         
@@ -87,36 +89,42 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
         self.goal_idx += 1
 
-    def extrinsicFormula(self, p_goal, p, a_goal, a):
-        w = 1 #w = 1 -> Ignore orientation
-        p_max = 1 #TODO
-        a_max = 1 #TODO
-        value = w * ((np.linalg.norm(p_goal-p) / p_max)**2.0) + (1-w) * ((np.linalg.norm(a_goal-a) / a_max)**2.0)
+    def extrinsicFormula(self, p_goal, p, a_goal, a, w = 1):
+        pos_dist = np.linalg.norm(p_goal-p)
+        pos_const = - np.log(0.25) / 0.05 # Score goes down to 0.25 within 5cm 
+        pos_value = np.exp(- pos_const * pos_dist)
+
+        orient_dist = min(np.linalg.norm(a_goal-a),np.linalg.norm(a_goal+a))
+        orient_const = - np.log(0.25) / 0.30 # Score goes down to 0.25 within 0.3
+        orient_value = np.exp(- orient_const * orient_dist)
+
+        value = w * pos_value + (1-w) * orient_value
         return value
 
-
-    def normalizeScore(self, score):
-        score = min(1, score) #Cut away scores worse than 1 (extremely bad outliers)
-        random_score = 0.5 #Average score of random controller
-        normalized_score = - (score - random_score) / random_score
-        return normalized_score * 1000
-
     def evaluateGoal(self):
-        if self.goal.final_state is None:
-            print("No final state?")
-            return 0
         initial_state = self.goal.initial_state
         final_state = self.goal.final_state
         current_state = self.robot.object_bodies
+
         score = 0
+        n_obj = len(final_state.keys())
         for obj in final_state.keys():
             p = np.array(current_state[obj].get_position())
             p_goal = np.array(final_state[obj][:3])
-            a = np.zeros(3) #TODO np.array(current_state[obj].get_position[3:])
+            a = np.array(current_state[obj].get_pose()[3:])
             a_goal = np.array(final_state[obj][3:])
-            score += self.extrinsicFormula(p_goal, p, a_goal, a)
-        print("Raw score: {}".format(score))
-        return self.normalizeScore(score)
+
+            if self.goal.challenge == '3D':
+                w = 0.75
+            else:
+                w = 1
+
+            objScore = self.extrinsicFormula(p_goal, p, a_goal, a, w) 
+            print("Object: {} Score: {:.4f}".format(obj,objScore))
+            score += objScore / n_obj
+
+        print("Goal score: {:.4f}".format(score))
+        return self.goal.challenge, score
 
         
     def create_single_player_scene(self, bullet_client):
@@ -149,7 +157,7 @@ class REALCompEnv(MJCFBaseBulletEnv):
             return rgb_array
 
     def get_part_pos(self, name):
-        print(self.robot.parts.keys())
+        #print(self.robot.parts.keys())
         return self.robot.parts[name].get_position()
     
     def get_obj_pos(self, name):

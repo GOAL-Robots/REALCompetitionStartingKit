@@ -13,20 +13,51 @@ from my_controller import MyController
 
 Controller = MyController
 
-def demo_run(extrinsic_trials=30):
+scores = {}
+
+def add_scores(challenge, score):
+    if challenge in scores.keys():
+        scores[challenge] += [score]
+    else:
+        scores[challenge] = [score]
+
+def report_score():
+    print("*****************")
+    total_score = 0
+    challenges = ['2D','2.5D','3D']
+    for key in challenges:
+        if key in scores.keys():
+            results = scores[key]
+            formatted_results = ", ".join(["{:.4f}".format(r) for r in results])
+            challenge_score = np.mean(results)
+        else:
+            results = []
+            formatted_results = "None"
+            challenge_score = 0
+
+        print("Challenge {} - {:.4f}".format(key, challenge_score))
+        print("Goals: {}".format(formatted_results))
+        total_score += challenge_score
+    total_score /= len(challenges)
+    print("Overall Score: {:.4f}".format(total_score))  
+    print("*****************")
+
+
+def demo_run(extrinsic_trials=350):
 
     env = gym.make('REALComp-v0')
     controller = Controller(env.action_space)
     
     # change length of simulation for testing purposes
-    env.intrinsic_timesteps = 10000 #default = 1e7
-    env.extrinsic_timesteps = 1000 #default = 1e3
+    env.intrinsic_timesteps = 1e7 #default = 1e7
+    env.extrinsic_timesteps = 2e3 #default = 2e3
 
     # render simulation on screen
     # env.render('human')
-    
+
     # reset simulation
     observation = env.reset()  
+
     reward = 0 
     done = False
 
@@ -68,13 +99,12 @@ def demo_run(extrinsic_trials=30):
             # get frames for video making
             # rgb_array = env.render('rgb_array')
 
-        score = env.evaluateGoal() / extrinsic_trials
-        totalScore += score
-        print("Score for Goal {}/{} was {} - Current score: {}".format(k, extrinsic_trials, score, totalScore))
-        
-
-    print("Final score was: {}".format(totalScore))
-    return totalScore
+        add_scores(*env.evaluateGoal())
+        print("Current score:")
+        report_score()
+       
+    print("Final score:")
+    report_score()
 
 if __name__=="__main__":
     demo_run()
