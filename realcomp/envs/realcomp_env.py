@@ -76,11 +76,11 @@ class REALCompEnv(MJCFBaseBulletEnv):
 
     def set_goal(self):
         if self.goals is None:
-            self.goals = np.load(
+            self.goals = list(np.load(
                     os.path.join( 
                         os.path.dirname(os.path.dirname(os.path.realpath(__file__))),
                         "task",
-                        "goals_dataset.npy.npz"), allow_pickle=True).items()[0][1]
+                        "goals_dataset.npy.npz"), allow_pickle=True).items())[0][1]
             self.goal_idx = 0
         self.goal = self.goals[self.goal_idx]
         
